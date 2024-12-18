@@ -18,6 +18,18 @@ export default [
         exact: true,
       },
       {
+        "path": "live/Camera",
+        "name": "摄像头",
+        "component": "@/pages/Camera",
+        "exact": true
+      },
+      {
+        "path": "live/CameraShare",
+        "name": "摄像头分享",
+        "component": "@/pages/CameraShare",
+        "exact": true
+      },
+      {
         path: 'sys/Menu',
         name: '系统菜单',
         component: '@/pages/Menu',

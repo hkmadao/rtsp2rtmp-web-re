@@ -156,7 +156,9 @@ const TableToolBar: FC<{
       data: undefined,
     });
   };
-
+    const handleEnabledChange = () => {
+      // TODO
+    };
   return (
     <>
       <div
@@ -169,56 +171,60 @@ const TableToolBar: FC<{
         }}
       >
         <Button
-          key={'k2iRCg3iOfisxH1RSaVgL'}
+          key={'3_13WIAgOmHve3m76HklW'}
           size={'middle'}
           type={'primary'}
+          disabled={!nodeTreeData}
           onClick={handleToAdd}
         >
-          {'新增'}
+          { '新增' }
         </Button>
         <Button
-          key={'GXOO6sN6sfo4_Cb9uyADv'}
+          key={'6J7X95__8C1OzXqbKTrp9'}
           size={'middle'}
           type={'primary'}
           disabled={selectRows?.length !== 1}
           onClick={handleToEdit}
         >
-          {'编辑'}
+          { '编辑' }
         </Button>
         <Button
-          key={'3TuGkHSTfsfHu_BZ_hLGo'}
+          key={'oKZO0RHHFWAYWRvsC7RMW'}
+          size={'middle'}
+          type={'primary'}
+          disabled={!nodeTreeData}
+          hidden={rowSelectionType === 'radio'}
+          onClick={handleRowSelectType}
+        >
+          { '单选' }
+        </Button>
+        <Button
+          key={'A20J1aDvpQHdVDlEeR_Xi'}
+          size={'middle'}
+          type={'primary'}
+          disabled={!nodeTreeData}
+          hidden={rowSelectionType === 'checkbox'}
+          onClick={handleRowSelectType}
+        >
+          { '多选' }
+        </Button>
+        <Button
+          key={'mSyqueRzvHx_WCb0IifhT'}
           size={'middle'}
           type={'primary'}
           disabled={selectRows?.length == 0}
           onClick={handleRowsDelete}
         >
-          {'删除'}
+          { '删除' }
         </Button>
         <Button
-          key={'4hL9QGB7OIbdIWVAR3w2f'}
+          key={'M3V-JBmVeJoSsW3b0ZkG_'}
           size={'middle'}
           type={'primary'}
-          hidden={rowSelectionType === 'radio'}
-          onClick={handleRowSelectType}
+          disabled={selectRows?.length !== 1}
+          onClick={handleEnabledChange}
         >
-          {'单选'}
-        </Button>
-        <Button
-          key={'U7iJt9UmZycN5sMcZJYvH'}
-          size={'middle'}
-          type={'primary'}
-          hidden={rowSelectionType === 'checkbox'}
-          onClick={handleRowSelectType}
-        >
-          {'多选'}
-        </Button>
-        <Button
-          key={'AQtjiv8ScrTb5lPd3M0Ga'}
-          size={'middle'}
-          type={'primary'}
-          onClick={handleReflesh}
-        >
-          {'刷新'}
+          { (selectRows?.length === 1 && selectRows[0]['enabled'] === 0)?'启用':'禁用' }
         </Button>
       </div>
       <Modal

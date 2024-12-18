@@ -229,6 +229,7 @@ const MainFormLayout: FC = () => {
             /> */}
             <CustomDatePick 
               format="YYYY-MM-DD HH:mm:ss"
+              displayFormat='YYYY-MM-DD HH:mm:ss'
               showTime={true} 
             />
           </Form.Item>
@@ -243,6 +244,7 @@ const MainFormLayout: FC = () => {
             /> */}
             <CustomDatePick 
               format="YYYY-MM-DD HH:mm:ss"
+              displayFormat='YYYY-MM-DD HH:mm:ss'
               showTime={true} 
             />
           </Form.Item>
@@ -257,6 +259,7 @@ const MainFormLayout: FC = () => {
             /> */}
             <CustomDatePick 
               format="YYYY-MM-DD HH:mm:ss"
+              displayFormat='YYYY-MM-DD HH:mm:ss'
               showTime={true} 
             />
           </Form.Item>

@@ -156,7 +156,21 @@ const TableToolBar: FC<{
       data: undefined,
     });
   };
-
+    const handleEnableChange = () => {
+      // TODO
+    };
+    const handleLiveChange = () => {
+      // TODO
+    };
+    const handleSaveVideoChange = () => {
+      // TODO
+    };
+    const handleRtmpPushChange = () => {
+      // TODO
+    };
+    const handlePlayAuthreFresh = () => {
+      // TODO
+    };
   return (
     <>
       <div
@@ -169,56 +183,93 @@ const TableToolBar: FC<{
         }}
       >
         <Button
-          key={'Yaemso7Bx8TnTKyAL5p08'}
+          key={'2B6Bl37AwjXc5uy8RKh4n'}
           size={'middle'}
           type={'primary'}
           onClick={handleToAdd}
         >
-          {'新增'}
+          { '新增' }
         </Button>
         <Button
-          key={'xbjAsQ1gFa9KcJaMNGIRw'}
+          key={'sFQGoEuC4ZYrqpFZMyJOF'}
           size={'middle'}
           type={'primary'}
           disabled={selectRows?.length !== 1}
           onClick={handleToEdit}
         >
-          {'编辑'}
+          { '编辑' }
         </Button>
         <Button
-          key={'NNJXyz0Rnc5_v6K8DKAIi'}
+          key={'9aJkAwH9H-S_kF_zZRFZ8'}
           size={'middle'}
           type={'primary'}
           hidden={rowSelectionType === 'radio'}
           onClick={handleRowSelectType}
         >
-          {'单选'}
+          { '单选' }
         </Button>
         <Button
-          key={'XbFycueAxA7_07UuDg8SW'}
+          key={'-72lBOPZZUfn0trfZbhFf'}
           size={'middle'}
           type={'primary'}
           hidden={rowSelectionType === 'checkbox'}
           onClick={handleRowSelectType}
         >
-          {'多选'}
+          { '多选' }
         </Button>
         <Button
-          key={'ptRZSv-d68ViqVt7iqJdj'}
+          key={'KNx8mvHnXJOSlyH-24vBN'}
           size={'middle'}
           type={'primary'}
           disabled={selectRows?.length == 0}
           onClick={handleRowsDelete}
         >
-          {'删除'}
+          { '删除' }
         </Button>
         <Button
-          key={'54GGZiQyODGo3UkDLYj3A'}
+          key={'7NUDFmk8mf9PXV5iROmV_'}
           size={'middle'}
           type={'primary'}
-          onClick={handleReflesh}
+          disabled={selectRows?.length !== 1}
+          onClick={handleEnableChange}
         >
-          {'刷新'}
+          { (selectRows?.length === 1 && selectRows[0]['enabled'] === 0)?'启用':'禁用' }
+        </Button>
+        <Button
+          key={'K7T7J1dW_QAFInu6H9HNg'}
+          size={'middle'}
+          type={'primary'}
+          disabled={selectRows?.length !== 1}
+          onClick={handleLiveChange}
+        >
+          { (selectRows?.length === 1 && selectRows[0]['rtmpPushStatus'] === 0)?'开启直播':'停止直播' }
+        </Button>
+        <Button
+          key={'PUkiKvnRL62hcwTjLhXC8'}
+          size={'middle'}
+          type={'primary'}
+          disabled={selectRows?.length !== 1}
+          onClick={handleSaveVideoChange}
+        >
+          { (selectRows?.length === 1 && selectRows[0]['saveVideo'] === 0)?'开启录像':'停止录像' }
+        </Button>
+        <Button
+          key={'LxEZUlJlWO8hp40V3g4rI'}
+          size={'middle'}
+          type={'primary'}
+          disabled={selectRows?.length !== 1}
+          onClick={handleRtmpPushChange}
+        >
+          { (selectRows?.length === 1 && selectRows[0]['rtmpPushStatus'] === 0)?'开启Rtmp推送':'停止Rtmp推送' }
+        </Button>
+        <Button
+          key={'v7RmaiF5MH6E-W0czwHtl'}
+          size={'middle'}
+          type={'primary'}
+          disabled={selectRows?.length !== 1}
+          onClick={handlePlayAuthreFresh}
+        >
+          { '刷新播放权限码' }
         </Button>
       </div>
       <Modal

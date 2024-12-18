@@ -62,10 +62,19 @@ export const search = createAsyncThunk(
           return;
         }
         if (searcheRef.operatorCode) {
+          let value = searchData[searcheRef.attributeName!];
+          if (searcheRef.valueType === 'Bool') {
+            if (!(value === true || value === false || value === 'true' || value === 'false')) {
+              return;
+            }
+            value = value && value === 'true'
+          } else if (!value && value !== 0) {
+            return;
+          }
           const fn: TFilterNode = {
             name: searcheRef.attributeName!,
             operatorCode: searcheRef.operatorCode,
-            filterParams: buildFilterValueBySearchRef(searcheRef, searchData[searcheRef.attributeName!]),
+            filterParams: buildFilterValueBySearchRef(searcheRef, value),
           };
           fns.push(fn);
         }
@@ -112,10 +121,19 @@ export const reflesh = createAsyncThunk(
           return;
         }
         if (searcheRef.operatorCode) {
+          let value = searchData[searcheRef.attributeName!];
+          if (searcheRef.valueType === 'Bool') {
+            if (!(value === true || value === false || value === 'true' || value === 'false')) {
+              return;
+            }
+            value = value && value === 'true'
+          } else if (!value && value !== 0) {
+            return;
+          }
           const fn: TFilterNode = {
             name: searcheRef.attributeName!,
             operatorCode: searcheRef.operatorCode,
-            filterParams: buildFilterValueBySearchRef(searcheRef, searchData[searcheRef.attributeName!]),
+            filterParams: buildFilterValueBySearchRef(searcheRef, value),
           };
           fns.push(fn);
         }
@@ -160,10 +178,19 @@ export const pageChange = createAsyncThunk(
           ) {
             return;
           }
+          let value = searchData[searcheRef.attributeName!];
+          if (searcheRef.valueType === 'Bool') {
+            if (!(value === true || value === false || value === 'true' || value === 'false')) {
+              return;
+            }
+            value = value && value === 'true'
+          } else if (!value && value !== 0) {
+            return;
+          }
           const fn: TFilterNode = {
             name: searcheRef.attributeName!,
             operatorCode: searcheRef.operatorCode,
-            filterParams: [searchData[searcheRef.attributeName!]],
+            filterParams: buildFilterValueBySearchRef(searcheRef, value),
           };
           fns.push(fn);
         }

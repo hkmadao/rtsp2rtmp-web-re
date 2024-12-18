@@ -8,6 +8,7 @@ import { billformConf } from '../../../../conf';
 import {
   TCamera,
 } from '../../../../models';
+import CustomDateTimeText from '@/components/CustomDateTimeText';
 export const useMainTableColumns: () => TableColumnType<TCamera>[] =
   () => {
   const dispatch = useDispatch();
@@ -134,7 +135,15 @@ export const useMainTableColumns: () => TableColumnType<TCamera>[] =
           dataIndex: 'created',
           key: 'created',
           render: (_dom: any, record: any) => {
-            return <>{record.created ? record.created : '--'}</>;
+            return (
+              <>
+                <CustomDateTimeText
+                  value={  record.created  }
+                  format="YYYY-MM-DDTHH:mm:ssZ"
+                  displayFormat="YYYY-MM-DD HH:mm:ss"
+                />
+              </>
+            );
           },
         },
 

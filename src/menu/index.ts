@@ -16,6 +16,20 @@ const menus: MenuDataItem[] = [
     children: dynamicMenus,
   },
   {
+    path: '/live',
+    name: '直播管理',
+    children: [
+      {
+        "path": "/live/Camera",
+        "name": "摄像头"
+      },
+      {
+        "path": "/live/CameraShare",
+        "name": "摄像头分享"
+      }
+    ]
+  },
+  {
     path: '/sys',
     name: '用户权限',
     children: [

@@ -104,7 +104,7 @@ const FormToolBar: FC<{
             type={'primary'}
             onClick={handleSave}
           >
-            {'保存'}
+            { '保存' }
           </Button>
           <Button
             key={'DU4_-4ekx5Jc-Z5BmIPxD'}
@@ -113,7 +113,7 @@ const FormToolBar: FC<{
             onClick={handleAddAgain}
             hidden={!fgAdd}
           >
-            {'保存并新增'}
+            { '保存并新增' }
           </Button>
           <Button
             key={'9TxQkPfN6Xyukc1lyD9_u'}
@@ -121,7 +121,7 @@ const FormToolBar: FC<{
             type={'primary'}
             onClick={handleCancel}
           >
-            {'取消'}
+            { '取消' }
           </Button>
           <Button
             key={'4Sjb4fJ21fhztQMH3JuQt'}
@@ -130,7 +130,7 @@ const FormToolBar: FC<{
             onClick={handleReflesh}
             hidden={fgAdd}
           >
-            {'刷新'}
+            { '刷新' }
           </Button>
         </div>
     </>

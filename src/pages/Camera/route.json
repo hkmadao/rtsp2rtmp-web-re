@@ -1,6 +1,0 @@
-{
-  "path": "dynamic/Camera",
-  "name": "摄像头",
-  "component": "@/pages/Camera",
-  "exact": true
-}

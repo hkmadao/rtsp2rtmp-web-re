@@ -61,8 +61,8 @@ const SearchArea: FC<{
 
   useEffect(() => {
     const newValues:any = {};
-    newValues.onlineStatus = false;
-    newValues.enabled = true;
+    newValues.enabled = 'true';
+    newValues.onlineStatus = 'false';
     form.setFieldsValue(newValues);
     searchValuesRef.current = newValues;
   }, [searcheRefs]);
@@ -81,12 +81,12 @@ const SearchArea: FC<{
         return;
       }
       if (searchRef.htmlInputType === 'Ref') {
-        if (!searchValuesRef.current[attributeName]) {
-          return;
-        }
         let refAttributeName = searchRef.refAttributeName;
         if (!refAttributeName) {
           console.warn('searchRef refAttributeName is undefind');
+          return;
+        }
+        if (!searchValuesRef.current[refAttributeName]) {
           return;
         }
         let backWriteProp = searchRef.refConfig?.backWriteProp;
@@ -140,20 +140,26 @@ const SearchArea: FC<{
             />
           </Form.Item>
           <Form.Item
-            label={'在线状态'}
-            name={'onlineStatus'}
-            style={{ padding: '5px 0px 5px 0px' }}
-            valuePropName="checked"
-          >
-            <Checkbox />
-          </Form.Item>
-          <Form.Item
             label={'启用状态'}
             name={'enabled'}
             style={{ padding: '5px 0px 5px 0px' }}
-            valuePropName="checked"
           >
-            <Checkbox />
+            <Select placeholder={'请选择'} >
+              <Select.Option value={'all'}>全部</Select.Option>
+              <Select.Option value={'true'}>是</Select.Option>
+              <Select.Option value={'false'}>否</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label={'在线状态'}
+            name={'onlineStatus'}
+            style={{ padding: '5px 0px 5px 0px' }}
+          >
+            <Select placeholder={'请选择'} >
+              <Select.Option value={'all'}>全部</Select.Option>
+              <Select.Option value={'true'}>是</Select.Option>
+              <Select.Option value={'false'}>否</Select.Option>
+            </Select>
           </Form.Item>
           <Form.Item
           style={{ padding: '5px 0px 5px 0px' }}

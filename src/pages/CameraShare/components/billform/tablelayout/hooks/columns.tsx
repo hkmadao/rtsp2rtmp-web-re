@@ -8,6 +8,7 @@ import { billformConf } from '../../../../conf';
 import {
   TCameraShare,
 } from '../../../../models';
+import CustomDateTimeText from '@/components/CustomDateTimeText';
 export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
   () => {
   const dispatch = useDispatch();
@@ -80,7 +81,15 @@ export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
           dataIndex: 'created',
           key: 'created',
           render: (_dom: any, record: any) => {
-            return <>{record.created ? record.created : '--'}</>;
+            return (
+              <>
+                <CustomDateTimeText
+                  value={  record.created  }
+                  format="YYYY-MM-DDTHH:mm:ssZ"
+                  displayFormat="YYYY-MM-DD HH:mm:ss"
+                />
+              </>
+            );
           },
         },
         {
@@ -89,7 +98,15 @@ export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
           dataIndex: 'startTime',
           key: 'startTime',
           render: (_dom: any, record: any) => {
-            return <>{record.startTime ? record.startTime : '--'}</>;
+            return (
+              <>
+                <CustomDateTimeText
+                  value={  record.startTime  }
+                  format="YYYY-MM-DDTHH:mm:ssZ"
+                  displayFormat="YYYY-MM-DD HH:mm:ss"
+                />
+              </>
+            );
           },
         },
         {
@@ -98,7 +115,15 @@ export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
           dataIndex: 'deadline',
           key: 'deadline',
           render: (_dom: any, record: any) => {
-            return <>{record.deadline ? record.deadline : '--'}</>;
+            return (
+              <>
+                <CustomDateTimeText
+                  value={  record.deadline  }
+                  format="YYYY-MM-DDTHH:mm:ssZ"
+                  displayFormat="YYYY-MM-DD HH:mm:ss"
+                />
+              </>
+            );
           },
         },
         {
