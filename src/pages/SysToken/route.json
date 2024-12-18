@@ -1,0 +1,6 @@
+{
+  "path": "dynamic/SysToken",
+  "name": "令牌",
+  "component": "@/pages/SysToken",
+  "exact": true
+}

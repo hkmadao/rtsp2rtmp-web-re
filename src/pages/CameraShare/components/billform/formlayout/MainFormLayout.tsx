@@ -224,12 +224,12 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             {/* <DatePicker
-              format="YYYY-MM-DD HH:mm:ss"
+              format='YYYY-MM-DDTHH:mm:ssZ'
               showTime={true}
             /> */}
             <CustomDatePick 
-              format="YYYY-MM-DD HH:mm:ss"
-              displayFormat='YYYY-MM-DD HH:mm:ss'
+              format='YYYY-MM-DDTHH:mm:ssZ'
+              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
               showTime={true} 
             />
           </Form.Item>
@@ -239,12 +239,12 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             {/* <DatePicker
-              format="YYYY-MM-DD HH:mm:ss"
+              format='YYYY-MM-DDTHH:mm:ssZ'
               showTime={true}
             /> */}
             <CustomDatePick 
-              format="YYYY-MM-DD HH:mm:ss"
-              displayFormat='YYYY-MM-DD HH:mm:ss'
+              format='YYYY-MM-DDTHH:mm:ssZ'
+              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
               showTime={true} 
             />
           </Form.Item>
@@ -254,12 +254,12 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             {/* <DatePicker
-              format="YYYY-MM-DD HH:mm:ss"
+              format='YYYY-MM-DDTHH:mm:ssZ'
               showTime={true}
             /> */}
             <CustomDatePick 
-              format="YYYY-MM-DD HH:mm:ss"
-              displayFormat='YYYY-MM-DD HH:mm:ss'
+              format='YYYY-MM-DDTHH:mm:ssZ'
+              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
               showTime={true} 
             />
           </Form.Item>

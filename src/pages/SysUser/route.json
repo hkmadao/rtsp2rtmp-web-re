@@ -1,0 +1,6 @@
+{
+  "path": "dynamic/SysUser",
+  "name": "系统用户",
+  "component": "@/pages/SysUser",
+  "exact": true
+}

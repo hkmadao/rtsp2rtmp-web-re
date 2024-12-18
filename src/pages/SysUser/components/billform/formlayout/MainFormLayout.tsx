@@ -16,7 +16,7 @@ import RefPicker from '@/components/Ref';
 import CustomDatePick from '@/components/CustomDatePick';
 import CustomTimePicker from '@/components/CustomTimePicker';
 import {
-  TCamera,
+  TUser,
 } from '../../../models';
 import { getRefByAttr } from '@/util';
 import { billformConf, subject } from '../../../conf';
@@ -156,7 +156,7 @@ const MainFormLayout: FC = () => {
     };
   }, [idUiConf]);
 
-  const handleValuesChange = (changedValues: any, values: TCamera) => {
+  const handleValuesChange = (changedValues: any, values: TUser) => {
     const newValues = { ...values };
     dispatch(actions.updateFormData(newValues));
   }
@@ -166,124 +166,116 @@ const MainFormLayout: FC = () => {
       <Form form={form} layout={'inline'} onValuesChange={handleValuesChange}>
         <Space direction="horizontal" size={2} wrap={true}>
           <Form.Item
-            label={'摄像头主属性'}
-            name={'id'}
+            label={'系统用户id'}
+            name={'idUser'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
               readOnly={fgDisabled || true }
               allowClear
               placeholder={
-                '请输入摄像头主属性'
+                '请输入系统用户id'
               }
             />
           </Form.Item>
           <Form.Item
-            label={'编号'}
-            name={'code'}
+            label={'登录账号 '}
+            name={'account'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
               readOnly={fgDisabled }
               allowClear
               placeholder={
-                '请输入编号'
+                '请输入登录账号 '
               }
             />
           </Form.Item>
           <Form.Item
-            label={'rtsp地址'}
-            name={'rtspUrl'}
+            label={'用户密码 '}
+            name={'userPwd'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
               readOnly={fgDisabled }
               allowClear
               placeholder={
-                '请输入rtsp地址'
+                '请输入用户密码 '
               }
             />
           </Form.Item>
           <Form.Item
-            label={'rtmp推送地址'}
-            name={'rtmpUrl'}
+            label={'手机号码'}
+            name={'phone'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
               readOnly={fgDisabled }
               allowClear
               placeholder={
-                '请输入rtmp推送地址'
+                '请输入手机号码'
               }
             />
           </Form.Item>
           <Form.Item
-            label={'播放权限码'}
-            name={'playAuthCode'}
+            label={'邮箱'}
+            name={'email'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
               readOnly={fgDisabled }
               allowClear
               placeholder={
-                '请输入播放权限码'
+                '请输入邮箱'
               }
             />
           </Form.Item>
           <Form.Item
-            label={'在线状态'}
-            name={'onlineStatus'}
-            style={{ padding: '5px 0px 5px 0px' }}
-            valuePropName="checked"
-          >
-            <Checkbox disabled={fgDisabled || true }/>
-          </Form.Item>
-          <Form.Item
-            label={'启用状态'}
-            name={'enabled'}
-            style={{ padding: '5px 0px 5px 0px' }}
-            valuePropName="checked"
-          >
-            <Checkbox disabled={fgDisabled || true }/>
-          </Form.Item>
-          <Form.Item
-            label={'rtmp推送状态'}
-            name={'rtmpPushStatus'}
-            style={{ padding: '5px 0px 5px 0px' }}
-            valuePropName="checked"
-          >
-            <Checkbox disabled={fgDisabled || true }/>
-          </Form.Item>
-          <Form.Item
-            label={'保存录像状态'}
-            name={'saveVideo'}
-            style={{ padding: '5px 0px 5px 0px' }}
-            valuePropName="checked"
-          >
-            <Checkbox disabled={fgDisabled || true }/>
-          </Form.Item>
-          <Form.Item
-            label={'直播状态'}
-            name={'live'}
-            style={{ padding: '5px 0px 5px 0px' }}
-            valuePropName="checked"
-          >
-            <Checkbox disabled={fgDisabled || true }/>
-          </Form.Item>
-          <Form.Item
-            label={'创建时间'}
-            name={'created'}
+            label={'姓名 '}
+            name={'name'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            {/* <DatePicker
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true}
-            /> */}
-            <CustomDatePick 
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true} 
+            <Input
+              readOnly={fgDisabled }
+              allowClear
+              placeholder={
+                '请输入姓名 '
+              }
             />
+          </Form.Item>
+          <Form.Item
+            label={'昵称'}
+            name={'nickName'}
+            style={{ padding: '5px 0px 5px 0px' }}
+          >
+            <Input
+              readOnly={fgDisabled }
+              allowClear
+              placeholder={
+                '请输入昵称'
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            label={'性别'}
+            name={'gender'}
+            style={{ padding: '5px 0px 5px 0px' }}
+          >
+            <Input
+              readOnly={fgDisabled }
+              allowClear
+              placeholder={
+                '请输入性别'
+              }
+            />
+          </Form.Item>
+          <Form.Item
+            label={'启用标志'}
+            name={'fgActive'}
+            style={{ padding: '5px 0px 5px 0px' }}
+            valuePropName="checked"
+          >
+            <Checkbox disabled={fgDisabled }/>
           </Form.Item>
         </Space>
       </Form>

@@ -41,7 +41,7 @@ const CustomDatePick: FC<TCustomDatePickProps> = ({
         onChange={handleChange}
         value={dateValue}
         ref={inputDisplayRef}
-        format={displayFormat ?? 'YYYY-MM-DD'}
+        format={displayFormat ?? 'YYYY-MM-DDTHH:mm:ssZ'}
         showTime
       />
     </>
