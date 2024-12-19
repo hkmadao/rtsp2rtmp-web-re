@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { EPartName } from '@/models';
 import { getRefByAttr } from '@/util';
 import { billformConf } from '../../../../conf';
+import CustomDateText from '@/components/CustomDateText';
 import {
   TCamera,
 } from '../../../../models';
-import CustomDateTimeText from '@/components/CustomDateTimeText';
 export const useMainTableColumns: () => TableColumnType<TCamera>[] =
   () => {
   const dispatch = useDispatch();
@@ -137,7 +137,7 @@ export const useMainTableColumns: () => TableColumnType<TCamera>[] =
           render: (_dom: any, record: any) => {
             return (
               <>
-                <CustomDateTimeText
+                <CustomDateText
                   value={  record.created  }
                   format="YYYY-MM-DDTHH:mm:ssZ"
                   displayFormat="YYYY-MM-DD HH:mm:ss"

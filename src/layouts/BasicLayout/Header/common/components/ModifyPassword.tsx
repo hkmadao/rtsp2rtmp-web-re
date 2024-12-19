@@ -69,7 +69,7 @@ const ModifyPassword: FC = () => {
             name="username"
             rules={[{ required: true, message: 'Please input your username!' }]}
           >
-            <Input readOnly={true} />
+            <Input />
           </Form.Item>
 
           <Form.Item

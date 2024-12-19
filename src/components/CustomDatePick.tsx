@@ -4,7 +4,6 @@ import moment, { Moment } from 'moment';
 import { PickerProps } from 'antd/lib/date-picker/generatePicker';
 
 type TCustomDatePickProps = {
-  showTime?: boolean;
   format?: string;
   displayFormat?: string;
   value?: string;
@@ -12,7 +11,6 @@ type TCustomDatePickProps = {
 };
 
 const CustomDatePick: FC<TCustomDatePickProps> = ({
-  showTime,
   format,
   displayFormat,
   value,
@@ -25,13 +23,14 @@ const CustomDatePick: FC<TCustomDatePickProps> = ({
 
   useEffect(() => {
     if (value) {
-      const date = moment(value, format ?? 'YYYY-MM-DD');
+      const date = moment(value, format ?? 'YYYY-MM-DDTHH:mm:ssZ');
       setDateValue(date);
     }
   }, [value]);
 
   const handleChange = (value: any, dateString: string) => {
-    onChange(dateString);
+    const dateStr = (value as Moment).format(format ?? 'YYYY-MM-DDTHH:mm:ssZ');
+    onChange(dateStr);
   };
 
   return (
@@ -41,7 +40,7 @@ const CustomDatePick: FC<TCustomDatePickProps> = ({
         onChange={handleChange}
         value={dateValue}
         ref={inputDisplayRef}
-        format={displayFormat ?? 'YYYY-MM-DDTHH:mm:ssZ'}
+        format={displayFormat ?? 'YYYY-MM-DD HH:mm:ss'}
         showTime
       />
     </>

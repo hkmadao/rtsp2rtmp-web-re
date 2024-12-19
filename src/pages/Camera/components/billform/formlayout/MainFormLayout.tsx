@@ -275,14 +275,9 @@ const MainFormLayout: FC = () => {
             name={'created'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            {/* <DatePicker
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true}
-            /> */}
             <CustomDatePick 
               format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true} 
+              displayFormat='YYYY-MM-DD HH:mm:ss'
             />
           </Form.Item>
         </Space>

@@ -31,19 +31,15 @@ const menus: MenuDataItem[] = [
   },
   {
     path: '/sys',
-    name: '用户权限',
+    name: '系统管理',
     children: [
       {
-        path: '/sys/Menu',
-        name: '系统菜单',
+        "path": "/sys/SysUser",
+        "name": "系统用户"
       },
       {
-        path: '/sys/Roleagg',
-        name: '角色聚合',
-      },
-      {
-        path: '/sys/Useragg',
-        name: '系统用户聚合',
+        "path": "/sys/SysToken",
+        "name": "令牌"
       },
     ],
   },

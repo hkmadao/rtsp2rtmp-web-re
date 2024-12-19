@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TMessage } from '@/util';
 import { componentName } from '../conf';
-import { andLogicNode, buildFilterValueBySearchRef, equalFilterNode, EDirection, TFilterNode, TPageInfo, TPageInfoInput, TTree, stringFilterParam } from '@/models';
+import { andLogicNode, equalFilterNode, EDirection, TFilterNode, TPageInfo, TPageInfoInput, TTree, stringFilterParam, buildFiltersBySearchRef, andOrLogicNode } from '@/models';
 import { TTableStore } from '../models';
 import { queryConf, tableConf, } from '../../../../conf';
 import ListAPI from '../api';
@@ -49,41 +49,15 @@ export const search = createAsyncThunk(
     }
     const searchData = message.data;
     const fns: TFilterNode[] = [];
-    if (searchData) {
-      searcheRefs?.forEach((searcheRef) => {
-        if (
-          !(
-            searcheRef.operatorCode === 'isNull' ||
-            searcheRef.operatorCode === 'notNull'
-          ) &&
-          (searchData[searcheRef.attributeName!] === undefined ||
-            searchData[searcheRef.attributeName!] === null)
-        ) {
-          return;
-        }
-        if (searcheRef.operatorCode) {
-          let value = searchData[searcheRef.attributeName!];
-          if (searcheRef.valueType === 'Bool') {
-            if (!(value === true || value === false || value === 'true' || value === 'false')) {
-              return;
-            }
-            value = value && value === 'true'
-          } else if (!value && value !== 0) {
-            return;
-          }
-          const fn: TFilterNode = {
-            name: searcheRef.attributeName!,
-            operatorCode: searcheRef.operatorCode,
-            filterParams: buildFilterValueBySearchRef(searcheRef, value),
-          };
-          fns.push(fn);
-        }
-      });
+    const searchFilter = buildFiltersBySearchRef(searchData, searcheRefs);
+    if (!searchFilter) {
+      return;
     }
+    fns.push(...searchFilter.andFilters);
     const params: TPageInfoInput = {
       pageIndex: 1,
       pageSize: 10,
-      logicNode: andLogicNode(fns)(),
+      logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
           property: 'id',
@@ -108,41 +82,15 @@ export const reflesh = createAsyncThunk(
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
     const searchData = state.searchData;
     const fns: TFilterNode[] = [];
-    if (searcheRefs && searchData) {
-      searcheRefs.forEach((searcheRef) => {
-        if (
-          !(
-            searcheRef.operatorCode === 'isNull' ||
-            searcheRef.operatorCode === 'notNull'
-          ) &&
-          (searchData[searcheRef.attributeName!] === undefined ||
-            searchData[searcheRef.attributeName!] === null)
-        ) {
-          return;
-        }
-        if (searcheRef.operatorCode) {
-          let value = searchData[searcheRef.attributeName!];
-          if (searcheRef.valueType === 'Bool') {
-            if (!(value === true || value === false || value === 'true' || value === 'false')) {
-              return;
-            }
-            value = value && value === 'true'
-          } else if (!value && value !== 0) {
-            return;
-          }
-          const fn: TFilterNode = {
-            name: searcheRef.attributeName!,
-            operatorCode: searcheRef.operatorCode,
-            filterParams: buildFilterValueBySearchRef(searcheRef, value),
-          };
-          fns.push(fn);
-        }
-      });
+    const searchFilter = buildFiltersBySearchRef(searchData, searcheRefs);
+    if (!searchFilter) {
+      return;
     }
+    fns.push(...searchFilter.andFilters);
     const searchParam: TPageInfoInput = {
       pageIndex: 1,
       pageSize: 10,
-      logicNode: andLogicNode(fns)(),
+      logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
           property: 'id',
@@ -165,41 +113,15 @@ export const pageChange = createAsyncThunk(
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
     const fns: TFilterNode[] = [];
     const searchData = state.searchData;
-    if (searcheRefs && searchData) {
-      searcheRefs.forEach((searcheRef) => {
-        if (searchData[searcheRef.attributeName!]) {
-          if (
-            !(
-              searcheRef.operatorCode === 'isNull' ||
-              searcheRef.operatorCode === 'notNull'
-            ) &&
-            (searchData[searcheRef.attributeName!] === undefined ||
-              searchData[searcheRef.attributeName!] === null)
-          ) {
-            return;
-          }
-          let value = searchData[searcheRef.attributeName!];
-          if (searcheRef.valueType === 'Bool') {
-            if (!(value === true || value === false || value === 'true' || value === 'false')) {
-              return;
-            }
-            value = value && value === 'true'
-          } else if (!value && value !== 0) {
-            return;
-          }
-          const fn: TFilterNode = {
-            name: searcheRef.attributeName!,
-            operatorCode: searcheRef.operatorCode,
-            filterParams: buildFilterValueBySearchRef(searcheRef, value),
-          };
-          fns.push(fn);
-        }
-      });
+    const searchFilter = buildFiltersBySearchRef(searchData, searcheRefs);
+    if (!searchFilter) {
+      return;
     }
+    fns.push(...searchFilter.andFilters);
     const queyrParams: TPageInfoInput = {
       pageIndex: page,
       pageSize: pageSize,
-      logicNode: andLogicNode(fns)(),
+      logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
           property: 'id',

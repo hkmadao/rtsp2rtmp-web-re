@@ -158,11 +158,10 @@ const MainFormLayout: FC = () => {
 
   const handleValuesChange = (changedValues: any, values: TCameraShare) => {
     const newValues = { ...values };
-    if (!values.camera) {
+    if (!newValues.camera) {
       newValues.cameraId = undefined;
-    }
-    if (changedValues.camera) {
-      newValues.cameraId = changedValues.camera.id;
+    } else {
+      newValues.cameraId = newValues.camera.id;
     }
     dispatch(actions.updateFormData(newValues));
   }
@@ -223,14 +222,9 @@ const MainFormLayout: FC = () => {
             name={'created'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            {/* <DatePicker
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true}
-            /> */}
             <CustomDatePick 
               format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true} 
+              displayFormat='YYYY-MM-DD HH:mm:ss'
             />
           </Form.Item>
           <Form.Item
@@ -238,14 +232,9 @@ const MainFormLayout: FC = () => {
             name={'startTime'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            {/* <DatePicker
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true}
-            /> */}
             <CustomDatePick 
               format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true} 
+              displayFormat='YYYY-MM-DD HH:mm:ss'
             />
           </Form.Item>
           <Form.Item
@@ -253,14 +242,9 @@ const MainFormLayout: FC = () => {
             name={'deadline'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            {/* <DatePicker
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true}
-            /> */}
             <CustomDatePick 
               format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DDTHH:mm:ssZ'
-              showTime={true} 
+              displayFormat='YYYY-MM-DD HH:mm:ss'
             />
           </Form.Item>
           <Form.Item

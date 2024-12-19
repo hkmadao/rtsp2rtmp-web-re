@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { EPartName } from '@/models';
 import { getRefByAttr } from '@/util';
 import { billformConf } from '../../../../conf';
+import CustomDateText from '@/components/CustomDateText';
 import {
   TCameraShare,
 } from '../../../../models';
-import CustomDateTimeText from '@/components/CustomDateTimeText';
 export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
   () => {
   const dispatch = useDispatch();
@@ -83,7 +83,7 @@ export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
           render: (_dom: any, record: any) => {
             return (
               <>
-                <CustomDateTimeText
+                <CustomDateText
                   value={  record.created  }
                   format="YYYY-MM-DDTHH:mm:ssZ"
                   displayFormat="YYYY-MM-DD HH:mm:ss"
@@ -100,7 +100,7 @@ export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
           render: (_dom: any, record: any) => {
             return (
               <>
-                <CustomDateTimeText
+                <CustomDateText
                   value={  record.startTime  }
                   format="YYYY-MM-DDTHH:mm:ssZ"
                   displayFormat="YYYY-MM-DD HH:mm:ss"
@@ -117,7 +117,7 @@ export const useMainTableColumns: () => TableColumnType<TCameraShare>[] =
           render: (_dom: any, record: any) => {
             return (
               <>
-                <CustomDateTimeText
+                <CustomDateText
                   value={  record.deadline  }
                   format="YYYY-MM-DDTHH:mm:ssZ"
                   displayFormat="YYYY-MM-DD HH:mm:ss"

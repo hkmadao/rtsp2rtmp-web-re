@@ -30,26 +30,16 @@ export default [
         "exact": true
       },
       {
-        path: 'sys/Menu',
-        name: '系统菜单',
-        component: '@/pages/Menu',
-        exact: true,
+        "path": "sys/SysUser",
+        "name": "系统用户",
+        "component": "@/pages/SysUser",
+        "exact": true
       },
       {
-        path: 'sys/Roleagg',
-        name: '角色聚合',
-        component: '@/pages/Roleagg',
-        exact: true,
-      },
-      {
-        path: 'sys/Useragg',
-        name: '系统用户聚合',
-        component: '@/pages/Useragg',
-        exact: true,
-      },
-      {
-        path: '*',
-        component: '@/pages/P404',
+        "path": "sys/SysToken",
+        "name": "令牌",
+        "component": "@/pages/SysToken",
+        "exact": true
       },
     ],
   },

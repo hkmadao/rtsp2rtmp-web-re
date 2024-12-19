@@ -1,0 +1,6 @@
+{
+  "path": "dynamic/CameraShare",
+  "name": "摄像头分享",
+  "component": "@/pages/CameraShare",
+  "exact": true
+}

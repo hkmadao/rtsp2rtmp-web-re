@@ -8,13 +8,11 @@ import API from './api';
 import { LoginParams, LoginResult } from './models';
 
 import styles from './index.less';
-import { hashSync } from 'bcryptjs';
 
 const Login: React.FC = () => {
   const handleSubmit = async (values: LoginParams) => {
     try {
       // 登录
-      // const password = hashSync(values.password!, values.username);
       const loginResult: LoginResult = await API.login({ ...values });
       setLonginUser({
         nickName: loginResult.nickName,

@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { EPartName } from '@/models';
 import { getRefByAttr } from '@/util';
 import { billformConf } from '../../../../conf';
-import CustomDateTimeText from '@/components/CustomDateTimeText';
+import CustomDateText from '@/components/CustomDateText';
 import {
   TUser,
 } from '../../../../models';

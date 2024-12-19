@@ -3,6 +3,7 @@ import { ProColumns } from '@ant-design/pro-table';
 import { Checkbox } from 'antd';
 import moment from 'moment';
 import RefPicker from '@/components/Ref';
+import CustomDateText from '@/components/CustomDateText';
 import CustomDatePick from '@/components/CustomDatePick';
 import CustomTimePicker from '@/components/CustomTimePicker';
 import { getRefByAttr } from '@/util';
