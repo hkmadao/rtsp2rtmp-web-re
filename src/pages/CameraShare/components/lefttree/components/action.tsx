@@ -6,9 +6,9 @@ import {
   PlusCircleOutlined,
 } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
-import { subject } from "@/pages/Menu/conf";
 import { useFgDisabled, useIdUiConf, useSelectedNode } from "../hooks";
 import { remove } from "../store";
+import { subject } from "../../../conf";
 
 const NodeAction: FC = () => {
   const dispatch = useDispatch();

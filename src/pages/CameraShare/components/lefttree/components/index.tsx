@@ -1,12 +1,33 @@
 import { FC, Key, useEffect, useRef, useState } from 'react';
-import { Button, TreeProps, Input, Tree, InputRef, Space } from 'antd';
-import { CloseCircleFilled, CloseOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  Button,
+  TreeProps,
+  Input,
+  Tree,
+  InputRef,
+  Space,
+  Checkbox,
+} from 'antd';
+import {
+  CloseCircleFilled,
+  CloseOutlined,
+  ReloadOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { TTree } from '@/models';
 import { Observer, TMessage } from '@/util/observer';
-import { subject, } from '../../../conf';
-import { useTreeData, useIdUiConf, useExpandedKeys, useSelectedKeys, useFoundKeys, useFgDisabled, } from '../hooks';
-import { actions, fetchTree, } from '../store';
+import { subject } from '../../../conf';
+import {
+  useTreeData,
+  useIdUiConf,
+  useExpandedKeys,
+  useSelectedKeys,
+  useFoundKeys,
+  useFgDisabled,
+  useFgInnerDisabled,
+} from '../hooks';
+import { actions, fetchTree } from '../store';
 import NodeAction from './action';
 
 type TOprationLayout = {};
@@ -14,6 +35,7 @@ type TOprationLayout = {};
 const LeftTreeLayout: FC<TOprationLayout> = () => {
   const idUiConf = useIdUiConf();
   const fgDisabled = useFgDisabled();
+  const fgInnerDisabled = useFgInnerDisabled();
   const treeDatas = useTreeData();
   const searchRef = useRef<InputRef>(null);
   const expandedKeys = useExpandedKeys();
@@ -35,7 +57,7 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
           if (!message || message.consumerIds.includes(idUiConf)) {
             return;
           }
-          dispatch(actions.cancelSelectedNode());
+          // dispatch(actions.cancelSelectedNode());
         })();
       },
     };
@@ -67,11 +89,12 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
   }, [idUiConf]);
 
   const onReflesh = () => {
+    setSearchValue(undefined);
     dispatch(fetchTree());
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") {
+    if (e.key !== 'Enter') {
       return;
     }
     const value = searchRef.current?.input?.value || '';
@@ -91,17 +114,25 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
     dispatch(actions.searchTreeNode(value));
   };
 
+  const handleToggleInnerDisabled = () => {
+    dispatch(actions.setFgInnerDisabled(!fgInnerDisabled));
+    if (!fgInnerDisabled) {
+      dispatch(actions.cancelSelectedNode());
+    }
+  };
+
   const handleChange = (e: any) => {
     setSearchValue(e.currentTarget.value);
   };
 
-  const handleClick = (e: any, node: any) => {
-  };
+  const handleClick = (e: any, node: any) => {};
 
-  const handleDoubleClick = (e: any, node: any) => {
-  };
+  const handleDoubleClick = (e: any, node: any) => {};
 
-  const onSelect = (keys: Key[], { node, nativeEvent }: { node: TTree; nativeEvent: MouseEvent; }) => {
+  const onSelect = (
+    keys: Key[],
+    { node, nativeEvent }: { node: TTree; nativeEvent: MouseEvent },
+  ) => {
     //只有第一次点击执行事件，防止连续多次执行
     if (nativeEvent.detail === 1) {
       if (keys && keys.length > 0) {
@@ -124,7 +155,7 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
 
   /** 树主配置 */
   const treeConfig: TreeProps<TTree & any> = {
-    disabled: fgDisabled,
+    disabled: fgDisabled || fgInnerDisabled,
     treeData: treeDatas,
     expandedKeys,
     selectedKeys: selectedKeys,
@@ -173,20 +204,44 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
               ref={searchRef}
               value={searchValue}
               onChange={handleChange}
-              readOnly={fgDisabled}
+              readOnly={fgDisabled || fgInnerDisabled}
               onKeyDown={handleKeyDown}
               suffix={
                 <Space direction="horizontal" size={2}>
-                  {searchValue ? <CloseCircleFilled style={{ color: 'rgb(191 191 191)' }} onClick={handleClear} /> : ''}
+                  {searchValue ? (
+                    <CloseCircleFilled
+                      style={{ color: 'rgb(191 191 191)' }}
+                      onClick={handleClear}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </Space>
-              } />
-            <Button onClick={handleSearch} type={'primary'} disabled={fgDisabled}>
+              }
+            />
+            <Button
+              onClick={handleSearch}
+              type={'primary'}
+              disabled={fgDisabled || fgInnerDisabled}
+            >
               <SearchOutlined />
             </Button>
-            <Button onClick={onReflesh} type={'primary'} disabled={fgDisabled}>
+            <Button
+              onClick={onReflesh}
+              type={'primary'}
+              disabled={fgDisabled || fgInnerDisabled}
+            >
               <ReloadOutlined />
             </Button>
           </Space>
+          <div style={{ display: 'flex', justifyContent: 'end', gap: '10px' }}>
+            {'禁用状态:'}
+            <Checkbox
+              checked={fgInnerDisabled}
+              disabled={fgDisabled}
+              onClick={handleToggleInnerDisabled}
+            ></Checkbox>
+          </div>
           {/* <NodeAction /> */}
           <Tree {...treeConfig} />
         </div>

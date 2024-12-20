@@ -4,8 +4,8 @@ import routes from './routes';
 
 export default defineConfig({
   //二级目录名称
-  publicPath: '/demo_antd/',
-  favicon: '/demo_antd/favicon.png',
+  publicPath: '/rtsp2rtmp/',
+  favicon: '/rtsp2rtmp/favicon.png',
   nodeModulesTransform: {
     type: 'none',
   },
@@ -18,7 +18,7 @@ export default defineConfig({
   // layout: {},
   routes: routes,
   fastRefresh: {},
-  title: 'demo-antd',
+  title: 'rtsp2rtmp',
   //开启mfsu项目使用class写法的组件报错
   // mfsu: {},
   webpack5: {

@@ -13,6 +13,12 @@ const ListAPI = {
   batchRemove: (params: TCameraShare[]) => {
     return API.POST(`/cameraShare/batchRemove`, params);
   },
+  enabledChange: (params: TCameraShare): Promise<TCameraShare> => {
+    return API.POST(`/cameraShare/enabled`, params);
+  },
+  playAuthCodeReset: (params: TCameraShare): Promise<TCameraShare> => {
+    return API.POST(`/cameraShare/playAuthCodeReset`, params);
+  },
 };
 
 export default ListAPI;

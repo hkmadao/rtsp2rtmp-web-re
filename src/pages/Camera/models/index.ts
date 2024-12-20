@@ -19,8 +19,8 @@ export type TCamera = {
   /**rtmp推送状态 */
   rtmpPushStatus?: boolean;
   /**保存录像状态 */
-  saveVideo?: boolean;
   /**直播状态 */
+  saveVideo?: boolean;
   live?: boolean;
   /**创建时间 */
   created?: string;

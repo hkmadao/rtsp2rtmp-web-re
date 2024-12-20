@@ -5,14 +5,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Observer, TMessage } from '@/util/observer';
 import { useMainTableColumns } from './hooks/columns';
-import { subject,} from '../../../conf';
+import { subject } from '../../../conf';
 import styles from './styles.less';
-import { batchRemove, fetchByTreeNode, pageChange, reflesh, search } from './store';
-import { useStoreData, useIdUiConf, } from './hooks';
-import { actions } from './store';
 import {
-  TCamera,
-} from '../../../models';
+  batchRemove,
+  fetchByTreeNode,
+  pageChange,
+  reflesh,
+  search,
+  statusChange,
+  playAuthCodeReset,
+} from './store';
+import { useStoreData, useIdUiConf } from './hooks';
+import { actions } from './store';
+import { TCamera } from '../../../models';
 const MainTableLayout: FC = () => {
   const idUiConf = useIdUiConf();
   const columns = useMainTableColumns();
@@ -24,7 +30,7 @@ const MainTableLayout: FC = () => {
 
   useEffect(() => {
     dispatch(reflesh());
-  },[]);
+  }, []);
 
   useEffect(() => {
     if (!idUiConf) {
@@ -162,6 +168,76 @@ const MainTableLayout: FC = () => {
     };
     subject.subscribe(refleshObserver);
 
+    const enabledChangeObserver: Observer = {
+      topic: 'enabledChange',
+      consumerId: idUiConf,
+      update: function (message: TMessage): void {
+        (async () => {
+          if (!message || message.consumerIds.includes(idUiConf)) {
+            return;
+          }
+          dispatch(statusChange('enabled'));
+        })();
+      },
+    };
+    subject.subscribe(enabledChangeObserver);
+
+    const liveChangeObserver: Observer = {
+      topic: 'liveChange',
+      consumerId: idUiConf,
+      update: function (message: TMessage): void {
+        (async () => {
+          if (!message || message.consumerIds.includes(idUiConf)) {
+            return;
+          }
+          dispatch(statusChange('live'));
+        })();
+      },
+    };
+    subject.subscribe(liveChangeObserver);
+
+    const rtmpPushStatusChangeObserver: Observer = {
+      topic: 'rtmpPushStatusChange',
+      consumerId: idUiConf,
+      update: function (message: TMessage): void {
+        (async () => {
+          if (!message || message.consumerIds.includes(idUiConf)) {
+            return;
+          }
+          dispatch(statusChange('rtmpPushStatus'));
+        })();
+      },
+    };
+    subject.subscribe(rtmpPushStatusChangeObserver);
+
+    const saveVideoChangeObserver: Observer = {
+      topic: 'saveVideoChange',
+      consumerId: idUiConf,
+      update: function (message: TMessage): void {
+        (async () => {
+          if (!message || message.consumerIds.includes(idUiConf)) {
+            return;
+          }
+          dispatch(statusChange('saveVideo'));
+        })();
+      },
+    };
+    subject.subscribe(saveVideoChangeObserver);
+
+    const playAuthCodeResetObserver: Observer = {
+      topic: 'playAuthCodeReset',
+      consumerId: idUiConf,
+      update: function (message: TMessage): void {
+        (async () => {
+          if (!message || message.consumerIds.includes(idUiConf)) {
+            return;
+          }
+          dispatch(playAuthCodeReset(message));
+        })();
+      },
+    };
+    subject.subscribe(playAuthCodeResetObserver);
+
     //销毁观察者
     return () => {
       subject.unsubsribe(treeNodeObserver);
@@ -173,6 +249,11 @@ const MainTableLayout: FC = () => {
       subject.unsubsribe(updateSuccessObserver);
       subject.unsubsribe(deletesObserver);
       subject.unsubsribe(refleshObserver);
+      subject.unsubsribe(enabledChangeObserver);
+      subject.unsubsribe(liveChangeObserver);
+      subject.unsubsribe(rtmpPushStatusChangeObserver);
+      subject.unsubsribe(saveVideoChangeObserver);
+      subject.unsubsribe(playAuthCodeResetObserver);
     };
   }, [idUiConf]);
 
@@ -186,11 +267,7 @@ const MainTableLayout: FC = () => {
     return <>总数：{total}</>;
   };
 
-  const onChange = (
-    selectedRowKeys: Key[],
-    selectedRows: TCamera[],
-  ) => {
-  };
+  const onChange = (selectedRowKeys: Key[], selectedRows: TCamera[]) => {};
 
   const handleSelect = (
     record: TCamera,
@@ -198,12 +275,12 @@ const MainTableLayout: FC = () => {
     selectedRows: TCamera[],
   ) => {
     if (rowSelectionType == 'checkbox') {
-      const newKeys = selectedRows.map(r => r.id!);
+      const newKeys = selectedRows.map((r) => r.id!);
       dispatch(actions.setSelectedRowKeys(newKeys));
     } else {
       dispatch(actions.setSelectedRowKeys([record.id!]));
     }
-  }
+  };
 
   const onRow = (record: TCamera) => {
     return {
@@ -214,9 +291,7 @@ const MainTableLayout: FC = () => {
             newKeys?.push(record.id!);
             dispatch(actions.setSelectedRowKeys(newKeys));
           } else {
-            newKeys = newKeys?.filter(
-              (idKey) => idKey !== record.id,
-            );
+            newKeys = newKeys?.filter((idKey) => idKey !== record.id);
             dispatch(actions.setSelectedRowKeys(newKeys));
           }
           dispatch(dispatch(actions.setSelectedRowKeys(newKeys)));
@@ -250,15 +325,13 @@ const MainTableLayout: FC = () => {
               }
             : undefined
         }
-        pagination={
-          {
-            total: tableStore.totalCount,
-            current: tableStore.pageIndex,
-            pageSize: tableStore.pageSize,
-            onChange: onPageChange,
-            showTotal,
-          }
-        }
+        pagination={{
+          total: tableStore.totalCount,
+          current: tableStore.pageIndex,
+          pageSize: tableStore.pageSize,
+          onChange: onPageChange,
+          showTotal,
+        }}
       />
     </>
   );

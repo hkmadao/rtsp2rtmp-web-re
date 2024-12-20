@@ -18,6 +18,12 @@ export default [
         exact: true,
       },
       {
+        "path": "live/live",
+        "name": "直播页面",
+        "component": "@/pages/Live",
+        "exact": true
+      },
+      {
         "path": "live/Camera",
         "name": "摄像头",
         "component": "@/pages/Camera",

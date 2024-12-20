@@ -67,6 +67,18 @@ export const searchTreeNode: CaseReducer<
   const foundKeys = getMatchKeys(treeConf?.searchAttrs || [], searchValue, state.sourchTreeData || []);
   const foundTree = getTreeByKeys(foundKeys, state.sourchTreeData || []);
   state.expandedKeys = getTreeKeys(foundTree);
-  state.foundKeys = foundKeys;
+  if (!searchValue) {
+    state.foundKeys = [];
+  } else {
+    state.foundKeys = foundKeys;
+  }
   state.treeData = foundTree;
+};
+
+export const setFgInnerDisabled: CaseReducer<
+  TLeftTreeStore,
+  PayloadAction<boolean>
+> = (state, action) => {
+  const fgInnerDisabled = action.payload;
+  state.fgInnerDisabled = fgInnerDisabled;
 };

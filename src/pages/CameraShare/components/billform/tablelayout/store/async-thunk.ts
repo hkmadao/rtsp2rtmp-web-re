@@ -53,6 +53,10 @@ export const search = createAsyncThunk(
     }
     const searchData = message.data;
     const fns: TFilterNode[] = [];
+    if (state.selectedTreeNode) {
+      const treeIdFn: TFilterNode = equalFilterNode('cameraId', stringFilterParam(state.selectedTreeNode['id']));
+      fns.push(treeIdFn);
+    }
     const searchFilter = buildFiltersBySearchRef(searchData, searcheRefs);
     if (!searchFilter) {
       return;
@@ -178,5 +182,41 @@ const pageInfo: TPageInfo<TCameraShare> = await ListAPI.pageList(
   params,
 );
 return pageInfo;
+  },
+);
+
+export const statusChange = createAsyncThunk(
+  `${tableConf?.name}/statusChange`,
+  async (changeType: 'enabled' , thunkAPI) => {
+    const state: TTableStore = (thunkAPI.getState() as any)[componentName];
+    const immutableData = state.tableData?.find(d => state.selectedRowKeys?.includes(d.id!));
+    if (!immutableData) {
+      console.error("no row to selected")
+      return;
+    }
+    const toChangeData = { ...immutableData };
+    toChangeData[changeType] = !(toChangeData[changeType]);
+    if (changeType === 'enabled') {
+      const changeData = await ListAPI.enabledChange(toChangeData);
+      return changeData;
+    }
+  },
+);
+
+export const playAuthCodeReset = createAsyncThunk(
+  `${tableConf?.name}/playAuthCodeReset`,
+  async (message: TMessage, thunkAPI) => {
+    if (!message || message.consumerIds.includes(componentName)) {
+      return;
+    }
+    const state: TTableStore = (thunkAPI.getState() as any)[componentName];
+    const immutableData = state.tableData?.find(d => state.selectedRowKeys?.includes(d.id!));
+    if (!immutableData) {
+      console.error("no row to selected")
+      return;
+    }
+    const toChangeData = { ...immutableData };
+    const changeData = await ListAPI.playAuthCodeReset(toChangeData);
+    return changeData;
   },
 );

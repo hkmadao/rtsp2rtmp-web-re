@@ -7,7 +7,7 @@ import { queryConf, tableConf, } from '../../../../conf';
 import ListAPI from '../api';
 import {
   TCamera,
- } from '../../../../models';
+} from '../../../../models';
 const searcheRefs = queryConf?.searchRefs;
 
 export const fetchByTreeNode = createAsyncThunk(
@@ -33,10 +33,10 @@ export const fetchByTreeNode = createAsyncThunk(
     const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
       params,
     );
-return {
-  selectedTreeNode,
-  pageInfo,
-}
+    return {
+      selectedTreeNode,
+      pageInfo,
+    }
   },
 );
 
@@ -69,10 +69,10 @@ export const search = createAsyncThunk(
     const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
       params,
     );
-return {
-  searchData,
-  pageInfo,
-}
+    return {
+      searchData,
+      pageInfo,
+    }
   },
 );
 
@@ -102,7 +102,7 @@ export const reflesh = createAsyncThunk(
     const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
       searchParam,
     );
-return pageInfo
+    return pageInfo
   },
 );
 
@@ -133,7 +133,7 @@ export const pageChange = createAsyncThunk(
     const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
       queyrParams,
     );
-return pageInfo
+    return pageInfo
   },
 );
 
@@ -145,26 +145,74 @@ export const batchRemove = createAsyncThunk(
     }
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
     const deleteDatas = state.tableData?.filter(d => state.selectedRowKeys?.includes(d.id!));
-if (!deleteDatas || deleteDatas.length === 0) {
-  return;
-}
-await ListAPI.batchRemove(deleteDatas);
-const fns: TFilterNode[] = [];
-const params: TPageInfoInput = {
-  pageIndex: 1,
-  pageSize: 10,
-  logicNode: andLogicNode(fns)(),
-  orders: [
+    if (!deleteDatas || deleteDatas.length === 0) {
+      return;
+    }
+    await ListAPI.batchRemove(deleteDatas);
+    const fns: TFilterNode[] = [];
+    const params: TPageInfoInput = {
+      pageIndex: 1,
+      pageSize: 10,
+      logicNode: andLogicNode(fns)(),
+      orders: [
         {
           property: 'id',
           direction: EDirection.ASC,
           ignoreCase: false,
         },
-  ],
-};
-const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
-  params,
+      ],
+    };
+    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
+      params,
+    );
+    return pageInfo;
+  },
 );
-return pageInfo;
+
+export const statusChange = createAsyncThunk(
+  `${tableConf?.name}/statusChange`,
+  async (changeType: 'enabled' | 'live' | 'rtmpPushStatus' | 'saveVideo', thunkAPI) => {
+    const state: TTableStore = (thunkAPI.getState() as any)[componentName];
+    const immutableData = state.tableData?.find(d => state.selectedRowKeys?.includes(d.id!));
+    if (!immutableData) {
+      console.error("no row to selected")
+      return;
+    }
+    const toChangeData = { ...immutableData };
+    toChangeData[changeType] = !(toChangeData[changeType]);
+    if (changeType === 'enabled') {
+      const changeData = await ListAPI.enabledChange(toChangeData);
+      return changeData;
+    }
+    if (changeType === 'live') {
+      const changeData = await ListAPI.liveChange(toChangeData);
+      return changeData;
+    }
+    if (changeType === 'rtmpPushStatus') {
+      const changeData = await ListAPI.rtmpPushChange(toChangeData);
+      return changeData;
+    }
+    if (changeType === 'saveVideo') {
+      const changeData = await ListAPI.saveVideoChange(toChangeData);
+      return changeData;
+    }
+  },
+);
+
+export const playAuthCodeReset = createAsyncThunk(
+  `${tableConf?.name}/playAuthCodeReset`,
+  async (message: TMessage, thunkAPI) => {
+    if (!message || message.consumerIds.includes(componentName)) {
+      return;
+    }
+    const state: TTableStore = (thunkAPI.getState() as any)[componentName];
+    const immutableData = state.tableData?.find(d => state.selectedRowKeys?.includes(d.id!));
+    if (!immutableData) {
+      console.error("no row to selected")
+      return;
+    }
+    const toChangeData = { ...immutableData };
+    const changeData = await ListAPI.playAuthCodeReset(toChangeData);
+    return changeData;
   },
 );

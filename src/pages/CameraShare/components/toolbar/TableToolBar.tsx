@@ -1,19 +1,26 @@
 import { FC, Key, useEffect, useState } from 'react';
-import { Button, Modal, } from 'antd';
+import { Button, Modal } from 'antd';
 import { Observer, TMessage } from '@/util/observer';
-import { subject, actionTableConf, } from '../../conf';
+import { subject, actionTableConf } from '../../conf';
 import { TTree } from '@/models';
+import Live, { TLiveInfo } from '@/components/Live';
+import { TCameraShare } from '../../models';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import Env from '@/conf/env';
 
 const TableToolBar: FC<{
-  idLayout: string
+  idLayout: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
 }> = ({ idLayout, fgDisabled }) => {
-  const [componentFgDiabled, setComponentFgDiabled] = useState<boolean>(fgDisabled);
+  const [componentFgDiabled, setComponentFgDiabled] =
+    useState<boolean>(fgDisabled);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [multiButtonContent, setMultiButtonContent] = useState<string>('多选');
   const [nodeTreeData, setTreeNodeData] = useState<TTree>();
   const [selectRows, setSelectRows] = useState<any[]>([]);
+  const [playPageUrl, setPlayPageUrl] = useState<string>('');
+  const [playUrl, setPlayUrl] = useState<string>('');
   const [rowSelectionType, setRowSelectionType] = useState<
     'checkbox' | 'radio'
   >('radio');
@@ -59,7 +66,17 @@ const TableToolBar: FC<{
         if (message.consumerIds.includes(idLayout)) {
           return;
         }
-        setSelectRows(message.data);
+        const rows: TCameraShare[] = message.data;
+        setSelectRows(rows);
+        if (rows.length === 1) {
+          const row = rows[0];
+          const shareUrl = `${Env.serverURL}/live/temp/${row.camera?.code}/${row.authCode}.flv`;
+          setPlayUrl(shareUrl);
+          const href = window.location.href;
+          let baseUrl = href.substring(0, href.indexOf('#'));
+          const sharePageUrl = `${baseUrl}#/live/live?method=temp&code=${row.camera?.code}&authCode=${row.authCode}`;
+          setPlayPageUrl(sharePageUrl);
+        }
       },
     };
     subject.subscribe(selectRowsObserver);
@@ -71,6 +88,7 @@ const TableToolBar: FC<{
         if (message.consumerIds.includes(idLayout)) {
           return;
         }
+        setSelectRows([])
       },
     };
     subject.subscribe(listReloadObserver);
@@ -156,9 +174,37 @@ const TableToolBar: FC<{
       data: undefined,
     });
   };
-    const handleEnabledChange = () => {
-      // TODO
+  const handleEnabledChange = () => {
+    subject.publish({
+      topic: 'enabledChange',
+      producerId: idLayout,
+      data: undefined,
+    });
+  };
+  const handlePlayAuthRefresh = () => {
+    subject.publish({
+      topic: 'playAuthCodeReset',
+      producerId: idLayout,
+      data: undefined,
+    });
+  };
+  const getLiveInfo = () => {
+    if (selectRows?.length !== 1) {
+      console.error('no row selected or more than one row selected');
+      return;
+    }
+    const cameraShare: TCameraShare = selectRows[0];
+    if (!cameraShare.camera?.code || !cameraShare.authCode) {
+      console.error('code or playAuthCode is empty');
+      return;
+    }
+    const liveInfo: TLiveInfo = {
+      method: 'temp',
+      code: cameraShare.camera.code,
+      playAuthCode: cameraShare.authCode,
     };
+    return liveInfo;
+  };
   return (
     <>
       <div
@@ -177,7 +223,7 @@ const TableToolBar: FC<{
           disabled={!nodeTreeData}
           onClick={handleToAdd}
         >
-          { '新增' }
+          {'新增'}
         </Button>
         <Button
           key={'6J7X95__8C1OzXqbKTrp9'}
@@ -186,7 +232,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleToEdit}
         >
-          { '编辑' }
+          {'编辑'}
         </Button>
         <Button
           key={'oKZO0RHHFWAYWRvsC7RMW'}
@@ -196,7 +242,7 @@ const TableToolBar: FC<{
           hidden={rowSelectionType === 'radio'}
           onClick={handleRowSelectType}
         >
-          { '单选' }
+          {'单选'}
         </Button>
         <Button
           key={'A20J1aDvpQHdVDlEeR_Xi'}
@@ -206,7 +252,7 @@ const TableToolBar: FC<{
           hidden={rowSelectionType === 'checkbox'}
           onClick={handleRowSelectType}
         >
-          { '多选' }
+          {'多选'}
         </Button>
         <Button
           key={'mSyqueRzvHx_WCb0IifhT'}
@@ -215,7 +261,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length == 0}
           onClick={handleRowsDelete}
         >
-          { '删除' }
+          {'删除'}
         </Button>
         <Button
           key={'M3V-JBmVeJoSsW3b0ZkG_'}
@@ -224,8 +270,37 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleEnabledChange}
         >
-          { (selectRows?.length === 1 && selectRows[0]['enabled'] === 0)?'启用':'禁用' }
+          {selectRows?.length === 1 && selectRows[0]['enabled'] === 0
+            ? '启用'
+            : '禁用'}
         </Button>
+        <Button
+          size={'middle'}
+          type={'primary'}
+          disabled={selectRows?.length !== 1}
+          onClick={handlePlayAuthRefresh}
+        >
+          {'刷新播放权限码'}
+        </Button>
+        <Live disabled={selectRows?.length !== 1} getLiveInfo={getLiveInfo} />
+        <CopyToClipboard text={playPageUrl}>
+          <Button
+            type={'primary'}
+            disabled={selectRows?.length !== 1}
+            size={'middle'}
+          >
+            复制播放页地址
+          </Button>
+        </CopyToClipboard>
+        <CopyToClipboard text={playUrl}>
+          <Button
+            type={'primary'}
+            disabled={selectRows?.length !== 1}
+            size={'middle'}
+          >
+            复制FLV播放地址
+          </Button>
+        </CopyToClipboard>
       </div>
       <Modal
         title="删除确认"

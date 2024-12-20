@@ -12,6 +12,9 @@ const FormAPI = {
   update: (params: TCameraShare) => {
     return API.POST(`/cameraShare/update`, params);
   },
+  enabledChange: (params: TCameraShare) => {
+    return API.POST(`/cameraShare/enabled`, params);
+  },
   remove: (params: TCameraShare) => {
     return API.POST(`/cameraShare/remove`, params);
   },

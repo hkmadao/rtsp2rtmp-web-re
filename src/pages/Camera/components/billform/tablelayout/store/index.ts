@@ -5,7 +5,7 @@ import {
   PayloadAction,
   nanoid,
 } from '@reduxjs/toolkit';
-import { fetchByTreeNode, search, reflesh, pageChange, batchRemove } from './async-thunk';
+import { fetchByTreeNode, search, reflesh, pageChange, batchRemove, statusChange, playAuthCodeReset } from './async-thunk';
 import { componentName } from '../conf';
 import { initialState } from './initial-state';
 import * as reducers from './actions';
@@ -33,7 +33,7 @@ export const tableSlice = createSlice({
         state.totalCount = pageInfo.pageInfoInput.totalCount;
         state.tableData = pageInfo.dataList;
         state.selectedTreeNode = selectedTreeNode;
-        state.selectedRowKeys  = [];
+        state.selectedRowKeys = [];
         state.searchData = undefined;
         subject.publish({
           topic: 'listReload',
@@ -53,7 +53,7 @@ export const tableSlice = createSlice({
         state.totalCount = pageInfo.pageInfoInput.totalCount;
         state.tableData = pageInfo.dataList;
         // state.selectedTreeNode = selectedTreeNode;
-        state.selectedRowKeys  = [];
+        state.selectedRowKeys = [];
         state.searchData = searchData;
         subject.publish({
           topic: 'listReload',
@@ -73,7 +73,7 @@ export const tableSlice = createSlice({
         state.totalCount = pageInfo.pageInfoInput.totalCount;
         state.tableData = pageInfo.dataList;
         // state.selectedTreeNode = selectedTreeNode;
-        state.selectedRowKeys  = [];
+        state.selectedRowKeys = [];
         // state.searchData = undefined;
         subject.publish({
           topic: 'listReload',
@@ -93,7 +93,7 @@ export const tableSlice = createSlice({
         state.totalCount = pageInfo.pageInfoInput.totalCount;
         state.tableData = pageInfo.dataList;
         // state.selectedTreeNode = selectedTreeNode;
-        state.selectedRowKeys  = [];
+        state.selectedRowKeys = [];
         // state.searchData = undefined;
         subject.publish({
           topic: 'listReload',
@@ -113,20 +113,64 @@ export const tableSlice = createSlice({
         state.totalCount = pageInfo.pageInfoInput.totalCount;
         state.tableData = pageInfo.dataList;
         // state.selectedTreeNode = selectedTreeNode;
-        state.selectedRowKeys  = [];
+        state.selectedRowKeys = [];
         // state.searchData = undefined;
         subject.publish({
           topic: 'listReload',
           producerId: state.idUiConf!,
           data: undefined,
         });
+      })
+      .addCase(statusChange.pending, (state, action) => { })
+      .addCase(statusChange.rejected, (state, action) => { })
+      .addCase(statusChange.fulfilled, (state, action) => {
+        if (!action.payload) {
+          return;
+        }
+        const camera = action.payload;
+        state.tableData = state.tableData?.map(data => {
+          if (camera.id === data.id) {
+            return camera;
+          }
+          return data;
+        }) || [];
+        const selectRows = state.tableData?.filter(d => state.selectedRowKeys?.includes(d.id!)) || [];
+        if (selectRows) {
+          subject.publish({
+            topic: 'selectRows',
+            producerId: state.idUiConf!,
+            data: JSON.parse(JSON.stringify(selectRows)),
+          });
+        }
+      })
+      .addCase(playAuthCodeReset.pending, (state, action) => { })
+      .addCase(playAuthCodeReset.rejected, (state, action) => { })
+      .addCase(playAuthCodeReset.fulfilled, (state, action) => {
+        if (!action.payload) {
+          return;
+        }
+        const camera = action.payload;
+        state.tableData = state.tableData?.map(data => {
+          if (camera.id === data.id) {
+            return camera;
+          }
+          return data;
+        }) || [];
+        const selectRows = state.tableData?.filter(d => state.selectedRowKeys?.includes(d.id!)) || [];
+        if (selectRows) {
+          subject.publish({
+            topic: 'selectRows',
+            producerId: state.idUiConf!,
+            data: JSON.parse(JSON.stringify(selectRows)),
+          });
+        }
       });
   },
 });
 
 export const actions = tableSlice.actions;
 
-const reducer:any = {};
+const reducer: any = {};
 reducer[tableSlice.name] = tableSlice.reducer;
 
 export default configureStore({

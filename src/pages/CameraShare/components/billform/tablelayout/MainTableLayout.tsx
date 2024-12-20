@@ -5,14 +5,20 @@ import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Observer, TMessage } from '@/util/observer';
 import { useMainTableColumns } from './hooks/columns';
-import { subject,} from '../../../conf';
+import { subject } from '../../../conf';
 import styles from './styles.less';
-import { batchRemove, fetchByTreeNode, pageChange, reflesh, search } from './store';
-import { useStoreData, useIdUiConf, } from './hooks';
-import { actions } from './store';
 import {
-  TCameraShare,
-} from '../../../models';
+  batchRemove,
+  fetchByTreeNode,
+  pageChange,
+  playAuthCodeReset,
+  reflesh,
+  search,
+  statusChange,
+} from './store';
+import { useStoreData, useIdUiConf } from './hooks';
+import { actions } from './store';
+import { TCameraShare } from '../../../models';
 const MainTableLayout: FC = () => {
   const idUiConf = useIdUiConf();
   const columns = useMainTableColumns();
@@ -22,8 +28,7 @@ const MainTableLayout: FC = () => {
   const tableStore = useStoreData();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-  },[]);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (!idUiConf) {
@@ -161,6 +166,34 @@ const MainTableLayout: FC = () => {
     };
     subject.subscribe(refleshObserver);
 
+    const enabledChangeObserver: Observer = {
+      topic: 'enabledChange',
+      consumerId: idUiConf,
+      update: function (message: TMessage): void {
+        (async () => {
+          if (!message || message.consumerIds.includes(idUiConf)) {
+            return;
+          }
+          dispatch(statusChange('enabled'));
+        })();
+      },
+    };
+    subject.subscribe(enabledChangeObserver);
+
+    const playAuthCodeResetObserver: Observer = {
+      topic: 'playAuthCodeReset',
+      consumerId: idUiConf,
+      update: function (message: TMessage): void {
+        (async () => {
+          if (!message || message.consumerIds.includes(idUiConf)) {
+            return;
+          }
+          dispatch(playAuthCodeReset(message));
+        })();
+      },
+    };
+    subject.subscribe(playAuthCodeResetObserver);
+
     //销毁观察者
     return () => {
       subject.unsubsribe(treeNodeObserver);
@@ -172,6 +205,8 @@ const MainTableLayout: FC = () => {
       subject.unsubsribe(updateSuccessObserver);
       subject.unsubsribe(deletesObserver);
       subject.unsubsribe(refleshObserver);
+      subject.unsubsribe(enabledChangeObserver);
+      subject.unsubsribe(playAuthCodeResetObserver);
     };
   }, [idUiConf]);
 
@@ -185,11 +220,7 @@ const MainTableLayout: FC = () => {
     return <>总数：{total}</>;
   };
 
-  const onChange = (
-    selectedRowKeys: Key[],
-    selectedRows: TCameraShare[],
-  ) => {
-  };
+  const onChange = (selectedRowKeys: Key[], selectedRows: TCameraShare[]) => {};
 
   const handleSelect = (
     record: TCameraShare,
@@ -197,12 +228,12 @@ const MainTableLayout: FC = () => {
     selectedRows: TCameraShare[],
   ) => {
     if (rowSelectionType == 'checkbox') {
-      const newKeys = selectedRows.map(r => r.id!);
+      const newKeys = selectedRows.map((r) => r.id!);
       dispatch(actions.setSelectedRowKeys(newKeys));
     } else {
       dispatch(actions.setSelectedRowKeys([record.id!]));
     }
-  }
+  };
 
   const onRow = (record: TCameraShare) => {
     return {
@@ -213,9 +244,7 @@ const MainTableLayout: FC = () => {
             newKeys?.push(record.id!);
             dispatch(actions.setSelectedRowKeys(newKeys));
           } else {
-            newKeys = newKeys?.filter(
-              (idKey) => idKey !== record.id,
-            );
+            newKeys = newKeys?.filter((idKey) => idKey !== record.id);
             dispatch(actions.setSelectedRowKeys(newKeys));
           }
           dispatch(dispatch(actions.setSelectedRowKeys(newKeys)));
@@ -249,15 +278,13 @@ const MainTableLayout: FC = () => {
               }
             : undefined
         }
-        pagination={
-          {
-            total: tableStore.totalCount,
-            current: tableStore.pageIndex,
-            pageSize: tableStore.pageSize,
-            onChange: onPageChange,
-            showTotal,
-          }
-        }
+        pagination={{
+          total: tableStore.totalCount,
+          current: tableStore.pageIndex,
+          pageSize: tableStore.pageSize,
+          onChange: onPageChange,
+          showTotal,
+        }}
       />
     </>
   );
