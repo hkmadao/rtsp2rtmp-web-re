@@ -7,7 +7,7 @@ import { queryConf, tableConf, } from '../../../../conf';
 import ListAPI from '../api';
 import {
   TCameraShare,
- } from '../../../../models';
+} from '../../../../models';
 const searcheRefs = queryConf?.searchRefs;
 
 export const fetchByTreeNode = createAsyncThunk(
@@ -37,10 +37,10 @@ export const fetchByTreeNode = createAsyncThunk(
     const pageInfo: TPageInfo<TCameraShare> = await ListAPI.pageList(
       params,
     );
-return {
-  selectedTreeNode,
-  pageInfo,
-}
+    return {
+      selectedTreeNode,
+      pageInfo,
+    }
   },
 );
 
@@ -77,10 +77,10 @@ export const search = createAsyncThunk(
     const pageInfo: TPageInfo<TCameraShare> = await ListAPI.pageList(
       params,
     );
-return {
-  searchData,
-  pageInfo,
-}
+    return {
+      searchData,
+      pageInfo,
+    }
   },
 );
 
@@ -114,7 +114,7 @@ export const reflesh = createAsyncThunk(
     const pageInfo: TPageInfo<TCameraShare> = await ListAPI.pageList(
       searchParam,
     );
-return pageInfo
+    return pageInfo
   },
 );
 
@@ -149,7 +149,7 @@ export const pageChange = createAsyncThunk(
     const pageInfo: TPageInfo<TCameraShare> = await ListAPI.pageList(
       queyrParams,
     );
-return pageInfo
+    return pageInfo
   },
 );
 
@@ -161,33 +161,43 @@ export const batchRemove = createAsyncThunk(
     }
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
     const deleteDatas = state.tableData?.filter(d => state.selectedRowKeys?.includes(d.id!));
-if (!deleteDatas || deleteDatas.length === 0) {
-  return;
-}
-await ListAPI.batchRemove(deleteDatas);
-const fns: TFilterNode[] = [];
-const params: TPageInfoInput = {
-  pageIndex: 1,
-  pageSize: 10,
-  logicNode: andLogicNode(fns)(),
-  orders: [
+    if (!deleteDatas || deleteDatas.length === 0) {
+      return;
+    }
+    await ListAPI.batchRemove(deleteDatas);
+    const fns: TFilterNode[] = [];
+    if (state.selectedTreeNode) {
+      const treeIdFn: TFilterNode = equalFilterNode('cameraId', stringFilterParam(state.selectedTreeNode['id']));
+      fns.push(treeIdFn);
+    }
+    const searchData = state.searchData;
+    const searchFilter = buildFiltersBySearchRef(searchData, searcheRefs);
+    if (!searchFilter) {
+      return;
+    }
+    fns.push(...searchFilter.andFilters);
+    const params: TPageInfoInput = {
+      pageIndex: 1,
+      pageSize: 10,
+      logicNode: andLogicNode(fns)(),
+      orders: [
         {
           property: 'id',
           direction: EDirection.ASC,
           ignoreCase: false,
         },
-  ],
-};
-const pageInfo: TPageInfo<TCameraShare> = await ListAPI.pageList(
-  params,
-);
-return pageInfo;
+      ],
+    };
+    const pageInfo: TPageInfo<TCameraShare> = await ListAPI.pageList(
+      params,
+    );
+    return pageInfo;
   },
 );
 
 export const statusChange = createAsyncThunk(
   `${tableConf?.name}/statusChange`,
-  async (changeType: 'enabled' , thunkAPI) => {
+  async (changeType: 'enabled', thunkAPI) => {
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
     const immutableData = state.tableData?.find(d => state.selectedRowKeys?.includes(d.id!));
     if (!immutableData) {

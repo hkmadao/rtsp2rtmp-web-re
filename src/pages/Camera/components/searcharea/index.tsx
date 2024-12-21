@@ -63,7 +63,7 @@ const SearchArea: FC<{
   useEffect(() => {
     const newValues:any = {};
     newValues.enabled = 'true';
-    newValues.onlineStatus = 'false';
+    newValues.onlineStatus = 'all';
     form.setFieldsValue(newValues);
     searchValuesRef.current = newValues;
   }, [searcheRefs]);

@@ -22,11 +22,18 @@ const ModifyPassword: FC = () => {
   };
 
   const handleLogin = async () => {
+    const values = await form.validateFields();
     try {
-      const values = await form.validateFields();
-      const password = md5(values.password!);
+      const checkedPassword = md5(values.checkedPassword!).toUpperCase();
+      const password = md5(values.password!).toUpperCase();
+      const oldPassword = md5(values.oldPassword!).toUpperCase();
       // 修改
-      await API.modifyPassword({ ...values, password });
+      await API.modifyPassword({
+        ...values,
+        password,
+        oldPassword,
+        checkedPassword,
+      });
 
       clearSessionStore();
       const user = getLonginUser();

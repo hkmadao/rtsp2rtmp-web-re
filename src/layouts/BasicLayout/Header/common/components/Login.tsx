@@ -20,9 +20,9 @@ const Login: FC = () => {
   };
 
   const handleLogin = async () => {
+    const values = await form.validateFields();
     try {
-      const values = await form.validateFields();
-      const password = md5(values.password!);
+      const password = md5(values.password!).toUpperCase();
       // 登录
       const loginResult: LoginResult = await API.login({ ...values, password });
       setLonginUser({
