@@ -100,7 +100,7 @@ const Live: FC<{
         maskClosable={false}
         onCancel={handlePlayClose}
         destroyOnClose={true}
-        width={window.innerWidth}
+        width={window.innerWidth * 0.9}
         footer={''}
       >
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -113,13 +113,7 @@ const Live: FC<{
             </Checkbox>
           </div>
           <div>
-            <video
-              name="videoElement"
-              className="centeredVideo"
-              controls
-              allow="autoPlay"
-              width="100%"
-            >
+            <video className="centeredVideo" controls width="100%">
               Your browser is too old which doesn't support HTML5 video.
             </video>
           </div>

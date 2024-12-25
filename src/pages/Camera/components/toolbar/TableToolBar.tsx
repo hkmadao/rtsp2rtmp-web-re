@@ -263,7 +263,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleEnableChange}
         >
-          {selectRows?.length === 1 && selectRows[0]['enabled'] === false
+          {selectRows?.length === 1 && !selectRows[0]['enabled']
             ? '启用'
             : '禁用'}
         </Button>
@@ -273,7 +273,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleLiveChange}
         >
-          {selectRows?.length === 1 && selectRows[0]['live'] === false
+          {selectRows?.length === 1 && !selectRows[0]['live']
             ? '开启直播'
             : '停止直播'}
         </Button>
@@ -283,7 +283,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleSaveVideoChange}
         >
-          {selectRows?.length === 1 && selectRows[0]['saveVideo'] === false
+          {selectRows?.length === 1 && !selectRows[0]['saveVideo']
             ? '开启录像'
             : '停止录像'}
         </Button>
@@ -293,7 +293,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleRtmpPushStatusChange}
         >
-          {selectRows?.length === 1 && selectRows[0]['rtmpPushStatus'] === false
+          {selectRows?.length === 1 && !selectRows[0]['rtmpPushStatus']
             ? '开启Rtmp推送'
             : '停止Rtmp推送'}
         </Button>

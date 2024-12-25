@@ -8,7 +8,7 @@ import styles from './index.less';
 
 const getQueryString = (name: string) => {
   let reg = new RegExp('(^|&|\\?)' + name + '=([^&]*)(&|$)', 'i');
-  let r = window.location.hash.substr(1).match(reg);
+  let r = window.location.hash.substring(1).match(reg);
   if (r != null) {
     return decodeURIComponent(r[2]);
   }
@@ -117,10 +117,8 @@ const Live: FC = () => {
           </div>
           <div>
             <video
-              name="videoElement"
               className="centeredVideo"
               controls
-              allow="autoPlay"
               width="90%"
             >
               Your browser is too old which doesn't support HTML5 video.

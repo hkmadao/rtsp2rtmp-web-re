@@ -270,7 +270,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleEnabledChange}
         >
-          {selectRows?.length === 1 && selectRows[0]['enabled'] === 0
+          {selectRows?.length === 1 && !selectRows[0]['enabled']
             ? '启用'
             : '禁用'}
         </Button>
