@@ -60,8 +60,8 @@ export const search = createAsyncThunk(
       logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
-          property: 'idToken',
-          direction: EDirection.ASC,
+          property: 'createTime',
+          direction: EDirection.DESC,
           ignoreCase: false,
         },
       ],
@@ -93,8 +93,8 @@ export const reflesh = createAsyncThunk(
       logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
-          property: 'idToken',
-          direction: EDirection.ASC,
+          property: 'createTime',
+          direction: EDirection.DESC,
           ignoreCase: false,
         },
       ],
@@ -124,8 +124,8 @@ export const pageChange = createAsyncThunk(
       logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
-          property: 'idToken',
-          direction: EDirection.ASC,
+          property: 'createTime',
+          direction: EDirection.DESC,
           ignoreCase: false,
         },
       ],
@@ -156,8 +156,8 @@ const params: TPageInfoInput = {
   logicNode: andLogicNode(fns)(),
   orders: [
         {
-          property: 'idToken',
-          direction: EDirection.ASC,
+          property: 'createTime',
+          direction: EDirection.DESC,
           ignoreCase: false,
         },
   ],

@@ -48,7 +48,7 @@ const Live: FC = () => {
       code: code,
       playAuthCode: authCode,
     };
-    const serverURL = Env.serverURL;
+    const serverURL = Env.directServerUrl;
     if (!liveInfo) {
       message.error('getLiveInfo error');
       return;
@@ -120,6 +120,7 @@ const Live: FC = () => {
               className="centeredVideo"
               controls
               width="90%"
+              poster={'./video-background.png'}
             >
               Your browser is too old which doesn't support HTML5 video.
             </video>

@@ -70,7 +70,7 @@ const TableToolBar: FC<{
         setSelectRows(rows);
         if (rows.length === 1) {
           const row = rows[0];
-          const shareUrl = `${Env.serverURL}/live/temp/${row.camera?.code}/${row.authCode}.flv`;
+          const shareUrl = `${Env.directServerUrl}/live/temp/${row.camera?.code}/${row.authCode}.flv`;
           setPlayUrl(shareUrl);
           const href = window.location.href;
           let baseUrl = href.substring(0, href.indexOf('#'));

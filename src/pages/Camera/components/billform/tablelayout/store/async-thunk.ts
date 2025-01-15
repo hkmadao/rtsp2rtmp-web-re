@@ -24,6 +24,16 @@ export const fetchByTreeNode = createAsyncThunk(
       logicNode: andLogicNode(fns)(),
       orders: [
         {
+          property: 'onlineStatus',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
+          property: 'enabled',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
           property: 'id',
           direction: EDirection.ASC,
           ignoreCase: false,
@@ -60,6 +70,16 @@ export const search = createAsyncThunk(
       logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
+          property: 'onlineStatus',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
+          property: 'enabled',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
           property: 'id',
           direction: EDirection.ASC,
           ignoreCase: false,
@@ -93,6 +113,16 @@ export const reflesh = createAsyncThunk(
       logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
         {
+          property: 'onlineStatus',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
+          property: 'enabled',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
           property: 'id',
           direction: EDirection.ASC,
           ignoreCase: false,
@@ -123,6 +153,16 @@ export const pageChange = createAsyncThunk(
       pageSize: pageSize,
       logicNode: andOrLogicNode(fns, searchFilter.orFilters),
       orders: [
+        {
+          property: 'onlineStatus',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
+          property: 'enabled',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
         {
           property: 'id',
           direction: EDirection.ASC,
@@ -155,6 +195,16 @@ export const batchRemove = createAsyncThunk(
       pageSize: 10,
       logicNode: andLogicNode(fns)(),
       orders: [
+        {
+          property: 'onlineStatus',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
+        {
+          property: 'enabled',
+          direction: EDirection.DESC,
+          ignoreCase: false,
+        },
         {
           property: 'id',
           direction: EDirection.ASC,

@@ -36,6 +36,18 @@ export default [
         "exact": true
       },
       {
+        "path": "live/CameraRecord",
+        "name": "摄像头记录",
+        "component": "@/pages/CameraRecord",
+        "exact": true
+      },
+      {
+        "path": "Vod",
+        "name": "视频文件",
+        "component": "@/pages/Vod",
+        "exact": true
+      },
+      {
         "path": "sys/SysUser",
         "name": "系统用户",
         "component": "@/pages/SysUser",

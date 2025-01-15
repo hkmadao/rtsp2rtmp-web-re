@@ -26,7 +26,15 @@ const menus: MenuDataItem[] = [
       {
         "path": "/live/CameraShare",
         "name": "摄像头分享"
-      }
+      },
+      {
+        "path": "/live/CameraRecord",
+        "name": "摄像头记录"
+      },
+      {
+        "path": "/Vod",
+        "name": "视频文件",
+      },
     ]
   },
   {

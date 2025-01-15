@@ -1,19 +1,20 @@
 import Axios, { AxiosRequestConfig } from 'axios';
 import { message } from 'antd';
-import { history } from 'umi';
 import Env from '@/conf/env';
 import { getLonginUser, setLonginUser, setRediectPath, User } from '@/session';
 
-Axios.defaults.withCredentials = false;
+let serverURL = Env.serverURL;
 
-Axios.defaults.timeout = 60000;
+let baseAxios = Axios.create({
+  baseURL: serverURL,
+  timeout: 60000,
+});
 
-Axios.interceptors.request.use(
+baseAxios.interceptors.request.use(
   (config: AxiosRequestConfig<any>) => {
     let user: User = getLonginUser();
-    // console.log(user);
-    if (config.headers) {
-      config.headers['Authorization'] = user ? user.token! : '';
+    if (config.headers && user && user.token) {
+      config.headers['Authorization'] = user.token;
     }
     return config;
   },
@@ -23,7 +24,7 @@ Axios.interceptors.request.use(
   },
 );
 
-Axios.interceptors.response.use(
+baseAxios.interceptors.response.use(
   function (response) {
     if (response.data) {
       if (response.data.status === 0) {
@@ -89,39 +90,36 @@ Axios.interceptors.response.use(
   },
 );
 
-let serverURL = Env.serverURL;
-Axios.defaults.baseURL = serverURL;
-
 export const POST = async <T>(uri: string, params: T) => {
-  const res = await Axios.post(`${serverURL}${uri}`, params);
+  const res = await baseAxios.post(`${uri}`, params);
   return res.data;
 };
 export const GET = async <T>(uri: string, params?: T) => {
-  const res = await Axios.get(`${uri}`, {
+  const res = await baseAxios.get(`${uri}`, {
     params: params,
   });
   return res.data;
 };
 
 export const PUT = async <T>(uri: any, params: T) => {
-  const res = await Axios.put(`${serverURL}${uri}`, params);
+  const res = await baseAxios.put(`${uri}`, params);
   return res.data;
 };
 
 export const DELETE = async <T>(uri: any, params: { vos: T[] }) => {
-  const res = await Axios.delete(`${serverURL}${uri}`, {
+  const res = await baseAxios.delete(`${uri}`, {
     params: params,
   });
   return res.data;
 };
 
 export const PATCH = async <T>(uri: any, params: T) => {
-  const res = await Axios.patch(`${serverURL}${uri}`, params);
+  const res = await baseAxios.patch(`${uri}`, params);
   return res.data;
 };
 
 export const GET_DOWNLOAD = async (uri: any, downloadFileName?: string) => {
-  await Axios.get(`${serverURL}${uri}`, { responseType: 'arraybuffer' }).then(
+  await baseAxios.get(`${uri}`, { responseType: 'arraybuffer' }).then(
     (res) => {
       if (!downloadFileName) {
         if (!res.headers) {
