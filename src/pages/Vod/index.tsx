@@ -1,9 +1,9 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import { Button, Table, TableColumnType } from 'antd';
 import CustomDateText from '@/components/CustomDateText';
-import PlayerButton from './PlayerButton';
 import BaseAPI from '@/api';
-import moment,{Moment} from 'moment';
+import moment, { Moment } from 'moment';
+import VodPlay from './VodPlay';
 
 // 记录
 type RecordFileInfo = {
@@ -12,7 +12,7 @@ type RecordFileInfo = {
   // 文件大小
   size: number;
   // 最后修改时间
-  modTime: Date;
+  modTime: string;
 };
 
 const Vod: FC = () => {
@@ -91,12 +91,9 @@ const Vod: FC = () => {
       key: 'action',
       sorter: true,
       render: (_dom: any, record: RecordFileInfo) => {
-        const getVodInfo = () => {
-          return { fileName: record.fileName };
-        };
         return (
           <div>
-            <PlayerButton disabled={!record.fileName} getVodInfo={getVodInfo} />
+            <VodPlay disabled={false} fileName={record.fileName} />
           </div>
         );
       },
@@ -108,30 +105,41 @@ const Vod: FC = () => {
       <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          flex: 'auto',
-          gap: '20px',
-          margin: '10px',
+          height: 'calc(100vh - 56px)',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'end' }}>
-          <Button onClick={handleReflush}>刷新</Button>
-        </div>
-        <div>
-          <Table
-            size={'small'}
-            rowKey={'fileName'}
-            columns={columns}
-            dataSource={tableData}
-            scroll={{ x: 300, y: 800 }}
-            pagination={{
-              total: tableData.length,
-              pageSize: 20,
-              showTotal: (total: number) => {
-                return <>总数：{total}</>;
-              },
-            }}
-          />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            flex: 'auto',
+            gap: '20px',
+            margin: '10px',
+            overflow: 'auto',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'end' }}>
+            <Button onClick={handleReflush}>刷新</Button>
+          </div>
+          <div>
+            <Table
+              size={'small'}
+              rowKey={'fileName'}
+              columns={columns}
+              dataSource={tableData}
+              scroll={{ x: 300, y: 600 }}
+              rowSelection={{
+                type: 'radio',
+              }}
+              pagination={{
+                total: tableData.length,
+                pageSize: 20,
+                showTotal: (total: number) => {
+                  return <>总数：{total}</>;
+                },
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

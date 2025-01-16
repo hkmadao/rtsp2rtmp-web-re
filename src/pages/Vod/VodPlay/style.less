@@ -1,0 +1,38 @@
+.range-input {
+  width: 100%;
+  height: 2px;
+}
+
+.range-input:hover {
+  cursor: pointer;
+}
+
+.volume-range {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.volume-range>div:last-child {
+  width: 0px;
+  align-items: center;
+  overflow: hidden;
+  transition: 0.5s 0.1s;
+}
+
+.volume-range:hover>div:last-child {
+  width: 100px;
+}
+
+.timelime-content>div:last-child {
+  display: flex;
+  height: 0px;
+  overflow: hidden;
+  transition: 0.5s 0.1s;
+}
+
+.timelime-content:hover>div:last-child {
+  display: flex;
+  justify-content: space-between;
+  height: 30px;
+}

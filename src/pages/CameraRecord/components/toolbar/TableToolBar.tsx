@@ -1,17 +1,18 @@
 import { FC, Key, useEffect, useState } from 'react';
-import { Button, Modal, } from 'antd';
+import { Button, Modal } from 'antd';
 import { Observer, TMessage } from '@/util/observer';
-import { subject, actionTableConf, } from '../../conf';
+import { subject, actionTableConf } from '../../conf';
 import { TTree } from '@/models';
 import CameraRecordVod from '@/components/CameraRecordVod';
 import { TCameraRecord } from '../../models';
 
 const TableToolBar: FC<{
-  idLayout: string
+  idLayout: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
 }> = ({ idLayout, fgDisabled }) => {
-  const [componentFgDiabled, setComponentFgDiabled] = useState<boolean>(fgDisabled);
+  const [componentFgDiabled, setComponentFgDiabled] =
+    useState<boolean>(fgDisabled);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [multiButtonContent, setMultiButtonContent] = useState<string>('多选');
   const [nodeTreeData, setTreeNodeData] = useState<TTree>();
@@ -159,18 +160,14 @@ const TableToolBar: FC<{
     });
   };
 
-  const getVodInfo = () => {
-      if (selectRows?.length !== 1) {
-        console.error('no row selected or more than one row selected');
-        return;
-      }
-      const cameraRecord: TCameraRecord = selectRows[0];
-      
-      const liveInfo = {
-        idCameraRecord: cameraRecord.idCameraRecord!
-      };
-      return liveInfo;
-    };
+  const getId = () => {
+    if (selectRows?.length !== 1) {
+      return;
+    }
+    const cameraRecord: TCameraRecord = selectRows[0];
+
+    return cameraRecord.idCameraRecord;
+  };
   return (
     <>
       <div
@@ -188,7 +185,7 @@ const TableToolBar: FC<{
           type={'primary'}
           onClick={handleToAdd}
         >
-          { '新增' }
+          {'新增'}
         </Button>
         <Button
           key={'GXOO6sN6sfo4_Cb9uyADv'}
@@ -197,7 +194,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length !== 1}
           onClick={handleToEdit}
         >
-          { '编辑' }
+          {'编辑'}
         </Button>
         <Button
           key={'3TuGkHSTfsfHu_BZ_hLGo'}
@@ -206,7 +203,7 @@ const TableToolBar: FC<{
           disabled={selectRows?.length == 0}
           onClick={handleRowsDelete}
         >
-          { '删除' }
+          {'删除'}
         </Button>
         <Button
           key={'4hL9QGB7OIbdIWVAR3w2f'}
@@ -215,7 +212,7 @@ const TableToolBar: FC<{
           hidden={rowSelectionType === 'radio'}
           onClick={handleRowSelectType}
         >
-          { '单选' }
+          {'单选'}
         </Button>
         <Button
           key={'U7iJt9UmZycN5sMcZJYvH'}
@@ -224,7 +221,7 @@ const TableToolBar: FC<{
           hidden={rowSelectionType === 'checkbox'}
           onClick={handleRowSelectType}
         >
-          { '多选' }
+          {'多选'}
         </Button>
         <Button
           key={'AQtjiv8ScrTb5lPd3M0Ga'}
@@ -232,11 +229,11 @@ const TableToolBar: FC<{
           type={'primary'}
           onClick={handleReflesh}
         >
-          { '刷新' }
+          {'刷新'}
         </Button>
         <CameraRecordVod
           disabled={selectRows?.length !== 1}
-          getVodInfo={getVodInfo}
+          idCameraRecord={getId()!}
         />
       </div>
       <Modal
