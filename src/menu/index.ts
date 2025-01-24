@@ -32,7 +32,7 @@ const menus: MenuDataItem[] = [
         "name": "摄像头记录"
       },
       {
-        "path": "/Vod",
+        "path": "/HistoryVedio",
         "name": "视频文件",
       },
     ]

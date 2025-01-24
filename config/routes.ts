@@ -42,9 +42,9 @@ export default [
         "exact": true
       },
       {
-        "path": "Vod",
+        "path": "HistoryVedio",
         "name": "视频文件",
-        "component": "@/pages/Vod",
+        "component": "@/pages/HistoryVedio",
         "exact": true
       },
       {

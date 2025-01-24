@@ -1,15 +1,21 @@
 import { FC, useEffect, useMemo } from 'react';
 import React from 'react';
 import { Button, Modal } from 'antd';
-import Vod from './Vod';
+import VodPlay from '@/components/VodPlay';
+import Env from '@/conf/env';
 
-const VodPlay: FC<{
+const Vod: FC<{
   disabled: boolean;
   fileName: string;
 }> = ({ disabled, fileName }) => {
   const [open, setOpen] = React.useState(false);
 
-  const flvFileName = useMemo(() => fileName, [fileName]);
+  const mediaUrlInfo = useMemo(() => {
+    const mediaInfoGetUrl = `/vod/getDuration/${fileName}`;
+    const mediaDataGetUrl = `${Env.directServerUrl}/vod/start/${fileName}`;
+    const playTimeNotifyUrl = `/vod/fetch`;
+    return { mediaInfoGetUrl, mediaDataGetUrl, playTimeNotifyUrl };
+  }, [fileName]);
 
   useEffect(() => {}, []);
 
@@ -39,9 +45,9 @@ const VodPlay: FC<{
         width={window.innerWidth * 0.8}
         footer={''}
       >
-        <Vod flvFileName={flvFileName} />
+        <VodPlay {...mediaUrlInfo} />
       </Modal>
     </>
   );
 };
-export default VodPlay;
+export default Vod;

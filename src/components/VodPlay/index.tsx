@@ -1,23 +1,20 @@
-import {
-  ChangeEvent,
-  FC,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import { ChangeEvent, FC, useEffect, useMemo, useRef } from 'react';
 import Flv from 'flv.js';
 import React from 'react';
 import { Checkbox, message, Spin } from 'antd';
-import Env from '@/conf/env';
 import { nanoid } from '@reduxjs/toolkit';
 import BaseAPI from '@/api';
 import { getLonginUser, User } from '@/session';
 import styles from './style.less';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 
+type FlvMediaInfo = {
+  duration: number;
+  hasAudio: boolean;
+};
+
 type VodProp = {
-  flvFileName: string;
+  mediaDataGetUrl: string;
   playerId: string;
   fgPlay: boolean;
   fgMuted: boolean;
@@ -26,9 +23,23 @@ type VodProp = {
   offsetTime: number;
 };
 
-const Vod: FC<{
-  flvFileName: string;
-}> = ({ flvFileName }) => {
+const VodPlay: FC<{
+  /**
+   * eg. http://127.0.0.1:8080/cameraRecord/getDuration/:camerRecordId
+   *     or http://127.0.0.1:8080/cameraRecord/getDuration/:fileName
+   */
+  mediaInfoGetUrl: string;
+  /**
+   * eg. http://127.0.0.1:8080/cameraRecord/start/:camerRecordId
+   *     or http://127.0.0.1:8080/cameraRecord/start/:fileName
+   */
+  mediaDataGetUrl: string;
+  /**
+   * eg. http://127.0.0.1:8080/cameraRecord/fetch
+   *     or http://127.0.0.1:8080/cameraRecord/fetch
+   */
+  playTimeNotifyUrl: string;
+}> = ({ mediaInfoGetUrl, mediaDataGetUrl, playTimeNotifyUrl }) => {
   const [hasAudio, setHasAudio] = React.useState(true); // source media hasAudio flag
   const [loading, setLoading] = React.useState(false);
   const [showVideoElement, setShowVideoElement] = React.useState(true);
@@ -58,7 +69,7 @@ const Vod: FC<{
     const fgPlay = false;
     setFgPlay(false);
     const vodProp: VodProp = {
-      flvFileName: flvFileName,
+      mediaDataGetUrl: mediaDataGetUrl,
       playerId: playerId,
       fgPlay: fgPlay,
       fgMuted: fgMuted,
@@ -70,16 +81,18 @@ const Vod: FC<{
   };
 
   useEffect(() => {
-    const videoDurationUrl = `/vod/getDuration/${flvFileName}`;
+    const videoDurationUrl = mediaInfoGetUrl;
     setLoading(true);
     BaseAPI.GET(videoDurationUrl)
-      .then((duration) => {
-        setDuration(duration);
+      .then((mediaInfo: FlvMediaInfo) => {
+        setDuration(mediaInfo.duration);
+        setHasAudio(mediaInfo.hasAudio);
+        setFgMuted(!mediaInfo.hasAudio);
         const vodProp: VodProp = {
-          flvFileName: flvFileName,
+          mediaDataGetUrl: mediaDataGetUrl,
           playerId: playerId,
           fgPlay: fgPlay,
-          fgMuted: fgMuted,
+          fgMuted: !mediaInfo.hasAudio,
           volume: volume,
           duration: duration,
           offsetTime: offsetTime,
@@ -161,7 +174,7 @@ const Vod: FC<{
           const playerId = nanoid();
           setPlayerId(playerId);
           const vodProp: VodProp = {
-            flvFileName: flvFileName,
+            mediaDataGetUrl: mediaDataGetUrl,
             playerId: playerId,
             fgPlay: fgPlay,
             fgMuted: fgMuted,
@@ -180,7 +193,7 @@ const Vod: FC<{
             playRef.current.currentTime = value - offsetTime;
           }
           const seekSecond = Math.floor(value);
-          let videoUrl = `/vod/fetch?playerId=${playerId}&seekSecond=${seekSecond}`;
+          let videoUrl = `${playTimeNotifyUrl}?playerId=${playerId}&seekSecond=${seekSecond}`;
           BaseAPI.GET(videoUrl);
         }
       }
@@ -225,7 +238,7 @@ const Vod: FC<{
         const playerId = nanoid();
         setPlayerId(playerId);
         const vodProp: VodProp = {
-          flvFileName: flvFileName,
+          mediaDataGetUrl: mediaDataGetUrl,
           playerId: playerId,
           fgPlay: fgPlay,
           fgMuted: fgMuted,
@@ -256,15 +269,15 @@ const Vod: FC<{
     }
   };
 
-  const flv_load = (vodPrp: VodProp) => {
+  const flv_load = (vodProp: VodProp) => {
     setShowVideoElement(true);
-    const seekSecond = Math.floor(vodPrp.offsetTime);
-    let videoUrl = `${Env.directServerUrl}/vod/start/${flvFileName}?playerId=${vodPrp.playerId}&seekSecond=${seekSecond}`;
+    const seekSecond = Math.floor(vodProp.offsetTime);
+    let videoUrl = `${vodProp.mediaDataGetUrl}?playerId=${vodProp.playerId}&seekSecond=${seekSecond}`;
     var mediaDataSource: Flv.MediaDataSource = {
       type: 'flv',
-      duration: vodPrp.duration,
+      duration: vodProp.duration,
       url: videoUrl,
-      hasAudio: !vodPrp.fgMuted,
+      hasAudio: !vodProp.fgMuted,
     };
     console.log('MediaDataSource', mediaDataSource);
 
@@ -330,8 +343,8 @@ const Vod: FC<{
 
     playRef.current.attachMediaElement(element);
     playRef.current.load();
-    playRef.current.volume = vodPrp.volume;
-    if (vodPrp.fgPlay) {
+    playRef.current.volume = vodProp.volume;
+    if (vodProp.fgPlay) {
       playRef.current
         .play()
         ?.then(() => {})
@@ -499,4 +512,4 @@ const Vod: FC<{
     </>
   );
 };
-export default Vod;
+export default VodPlay;

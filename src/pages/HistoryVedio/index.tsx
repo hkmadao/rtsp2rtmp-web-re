@@ -3,7 +3,7 @@ import { Button, Table, TableColumnType } from 'antd';
 import CustomDateText from '@/components/CustomDateText';
 import BaseAPI from '@/api';
 import moment, { Moment } from 'moment';
-import VodPlay from './VodPlay';
+import Vod from './Vod';
 
 // 记录
 type RecordFileInfo = {
@@ -15,7 +15,7 @@ type RecordFileInfo = {
   modTime: string;
 };
 
-const Vod: FC = () => {
+const HistoryVedio: FC = () => {
   const [tableData, setTableData] = useState<RecordFileInfo[]>([]);
 
   useEffect(() => {
@@ -93,7 +93,7 @@ const Vod: FC = () => {
       render: (_dom: any, record: RecordFileInfo) => {
         return (
           <div>
-            <VodPlay disabled={false} fileName={record.fileName} />
+            <Vod disabled={false} fileName={record.fileName} />
           </div>
         );
       },
@@ -145,4 +145,4 @@ const Vod: FC = () => {
     </>
   );
 };
-export default Vod;
+export default HistoryVedio;

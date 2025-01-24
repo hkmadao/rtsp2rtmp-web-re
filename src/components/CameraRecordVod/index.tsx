@@ -1,7 +1,8 @@
 import { FC, useEffect, useMemo } from 'react';
 import React from 'react';
 import { Button, Modal } from 'antd';
-import Vod from './Vod';
+import Env from '@/conf/env';
+import VodPlay from '../VodPlay';
 
 const CameraRecordVod: FC<{
   disabled: boolean;
@@ -9,7 +10,12 @@ const CameraRecordVod: FC<{
 }> = ({ disabled, idCameraRecord }) => {
   const [open, setOpen] = React.useState(false);
 
-  const recordId = useMemo(() => idCameraRecord, [idCameraRecord]);
+  const mediaUrlInfo = useMemo(() => {
+    const mediaInfoGetUrl = `/cameraRecord/getDuration/${idCameraRecord}`;
+    const mediaDataGetUrl = `${Env.directServerUrl}/cameraRecord/start/${idCameraRecord}`;
+    const playTimeNotifyUrl = `/cameraRecord/fetch`;
+    return { mediaInfoGetUrl, mediaDataGetUrl, playTimeNotifyUrl };
+  }, [idCameraRecord]);
 
   useEffect(() => {}, []);
 
@@ -39,7 +45,7 @@ const CameraRecordVod: FC<{
         width={window.innerWidth * 0.8}
         footer={''}
       >
-        <Vod idCameraRecord={recordId} />
+        <VodPlay {...mediaUrlInfo} />
       </Modal>
     </>
   );
