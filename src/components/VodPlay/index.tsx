@@ -103,6 +103,16 @@ const VodPlay: FC<{
         message.error('get duration error');
       });
     setLoading(false);
+
+    return () => {
+      if (playRef.current) {
+        playRef.current.pause();
+        playRef.current.unload();
+        playRef.current.detachMediaElement();
+        playRef.current.destroy();
+        playRef.current = undefined;
+      }
+    };
   }, []);
 
   const durationSec = useMemo(() => {
