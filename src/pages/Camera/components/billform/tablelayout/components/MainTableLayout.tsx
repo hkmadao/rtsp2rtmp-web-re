@@ -4,8 +4,8 @@ import { DownOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Observer, TMessage } from '@/util/observer';
-import { useMainTableColumns } from './hooks/columns';
-import { subject } from '../../../conf';
+import { useMainTableColumns } from '../hooks/columns';
+import { subject } from '../../../../conf';
 import styles from './styles.less';
 import {
   batchRemove,
@@ -15,10 +15,10 @@ import {
   search,
   statusChange,
   playAuthCodeReset,
-} from './store';
-import { useStoreData, useIdUiConf } from './hooks';
-import { actions } from './store';
-import { TCamera } from '../../../models';
+} from '../store';
+import { useStoreData, useIdUiConf } from '../hooks';
+import { actions } from '../store';
+import { TCamera } from '../../../../models';
 const MainTableLayout: FC = () => {
   const idUiConf = useIdUiConf();
   const columns = useMainTableColumns();
@@ -29,7 +29,9 @@ const MainTableLayout: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(reflesh());
+    if (!tableStore.tableData || tableStore.tableData.length === 0) {
+      dispatch(reflesh());
+    }
   }, []);
 
   useEffect(() => {

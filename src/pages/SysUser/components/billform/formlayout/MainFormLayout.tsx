@@ -1,12 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import {
-  Form,
-  Input,
-  InputNumber,
-  Checkbox,
-  Space,
-  Select,
-} from 'antd';
+import { Form, Input, InputNumber, Checkbox, Space, Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -15,18 +8,16 @@ import { Observer, TMessage } from '@/util/observer';
 import RefPicker from '@/components/Ref';
 import CustomDatePick from '@/components/CustomDatePick';
 import CustomTimePicker from '@/components/CustomTimePicker';
-import {
-  TUser,
-} from '../../../models';
+import { TUser } from '../../../models';
 import { getRefByAttr } from '@/util';
 import { billformConf, subject } from '../../../conf';
+import { actions, toEdit, save, reflesh } from './store';
 import {
-  actions,
-  toEdit,
-  save,
-  reflesh,
-} from './store';
-import { useEditStatusInfo, useFormData, useIdUiConf, useFgDisabled, } from './hooks';
+  useEditStatusInfo,
+  useFormData,
+  useIdUiConf,
+  useFgDisabled,
+} from './hooks';
 const MainFormLayout: FC = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -48,13 +39,13 @@ const MainFormLayout: FC = () => {
     }
 
     const cancleObserver: Observer = {
-      topic: 'cancle',
+      topic: 'cancel',
       consumerId: idUiConf,
       update: function (message: TMessage): void {
         if (message.consumerIds.includes(idUiConf)) {
           return;
         }
-        dispatch(actions.cancle());
+        dispatch(actions.cancel());
       },
     };
     subject.subscribe(cancleObserver);
@@ -66,7 +57,9 @@ const MainFormLayout: FC = () => {
         if (message.consumerIds.includes(idUiConf)) {
           return;
         }
-        dispatch(actions.addFormData({ nodeData: message.data.treeSelectedNode }));
+        dispatch(
+          actions.addFormData({ nodeData: message.data.treeSelectedNode }),
+        );
       },
     };
     subject.subscribe(toAddObserver);
@@ -109,7 +102,12 @@ const MainFormLayout: FC = () => {
           if (message.consumerIds.includes(idUiConf)) {
             return;
           }
-          dispatch(toEdit({ nodeData: message.data.treeSelectedNode, selectedRow: message.data.selectedRow }));
+          dispatch(
+            toEdit({
+              nodeData: message.data.treeSelectedNode,
+              selectedRow: message.data.selectedRow,
+            }),
+          );
         })();
       },
     };
@@ -159,7 +157,7 @@ const MainFormLayout: FC = () => {
   const handleValuesChange = (changedValues: any, values: TUser) => {
     const newValues = { ...values };
     dispatch(actions.updateFormData(newValues));
-  }
+  };
 
   return (
     <>
@@ -171,11 +169,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled || true }
+              readOnly={fgDisabled || true}
               allowClear
-              placeholder={
-                '请输入系统用户id'
-              }
+              placeholder={'请输入系统用户id'}
             />
           </Form.Item>
           <Form.Item
@@ -184,11 +180,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入登录账号 '
-              }
+              placeholder={'请输入登录账号 '}
             />
           </Form.Item>
           <Form.Item
@@ -197,11 +191,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入用户密码 '
-              }
+              placeholder={'请输入用户密码 '}
             />
           </Form.Item>
           <Form.Item
@@ -210,11 +202,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入手机号码'
-              }
+              placeholder={'请输入手机号码'}
             />
           </Form.Item>
           <Form.Item
@@ -223,11 +213,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入邮箱'
-              }
+              placeholder={'请输入邮箱'}
             />
           </Form.Item>
           <Form.Item
@@ -236,11 +224,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入姓名 '
-              }
+              placeholder={'请输入姓名 '}
             />
           </Form.Item>
           <Form.Item
@@ -249,11 +235,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入昵称'
-              }
+              placeholder={'请输入昵称'}
             />
           </Form.Item>
           <Form.Item
@@ -262,11 +246,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入性别'
-              }
+              placeholder={'请输入性别'}
             />
           </Form.Item>
           <Form.Item
@@ -275,7 +257,7 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
             valuePropName="checked"
           >
-            <Checkbox disabled={fgDisabled }/>
+            <Checkbox disabled={fgDisabled} />
           </Form.Item>
         </Space>
       </Form>

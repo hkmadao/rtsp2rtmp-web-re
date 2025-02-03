@@ -1,22 +1,23 @@
 import { FC, useEffect } from 'react';
 import { Tabs } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-} from './SubForm';
-import MainFormLayout from './MainFormLayout';
-import { actions, } from './store';
+import {} from './components/SubForm';
+import MainFormLayout from './components/MainFormLayout';
+import { actions } from './store';
 
 const FormLayout: FC<{
-  idLayout: string
+  idLayout: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
-}> = ({ idLayout, fgDisabled }) => {
-  const { TabPane } = Tabs;
+  fgHidden: boolean;
+}> = ({ idLayout, fgDisabled, fgHidden }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.setComponentInfo({ idUiConf: idLayout, fgDisabled }))
-  }, [idLayout, fgDisabled]);
+    dispatch(
+      actions.setComponentInfo({ idUiConf: idLayout, fgDisabled, fgHidden }),
+    );
+  }, [idLayout, fgDisabled, fgHidden]);
 
   return (
     <>
@@ -28,16 +29,11 @@ const FormLayout: FC<{
           backgroundColor: 'white',
         }}
       >
-        <div
-          style={{ flex: 'auto', }}
-        >
+        <div style={{ flex: 'auto' }}>
           <MainFormLayout />
         </div>
-        <div
-          style={{ flex: 'auto', }}
-        >
-        <Tabs defaultActiveKey={''}>
-         </Tabs>
+        <div style={{ flex: 'auto' }}>
+          <Tabs defaultActiveKey={''}></Tabs>
         </div>
       </div>
     </>

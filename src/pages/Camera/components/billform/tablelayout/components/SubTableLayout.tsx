@@ -3,12 +3,8 @@ import { Table, Tabs } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import styles from './styles.less';
-import { 
-  useSelectRow,
-} from './hooks';
-import {
-  TCameraShare,
-} from '../../../models';
+import { useSelectRow } from '../hooks';
+import { TCameraShare } from '../../../../models';
 
 const SubTableLayout: FC = () => {
   const selectRow = useSelectRow();
@@ -16,8 +12,7 @@ const SubTableLayout: FC = () => {
   const { TabPane } = Tabs;
   return (
     <>
-      <Tabs defaultActiveKey={''}>
-      </Tabs>
+      <Tabs defaultActiveKey={''}></Tabs>
     </>
   );
 };

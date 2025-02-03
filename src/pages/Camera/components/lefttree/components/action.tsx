@@ -1,14 +1,14 @@
-import { FC } from "react";
-import { Button, Space } from "antd";
+import { FC } from 'react';
+import { Button, Space } from 'antd';
 import {
   DeleteOutlined,
   EditOutlined,
   PlusCircleOutlined,
-} from "@ant-design/icons";
-import { useSelector, useDispatch } from "react-redux";
-import { subject } from "@/pages/Menu/conf";
-import { useFgDisabled, useIdUiConf, useSelectedNode } from "../hooks";
-import { remove } from "../store";
+} from '@ant-design/icons';
+import { useSelector, useDispatch } from 'react-redux';
+import { subject } from '../../../conf';
+import { useFgDisabled, useIdUiConf, useSelectedNode } from '../hooks';
+import { remove } from '../store';
 
 const NodeAction: FC = () => {
   const dispatch = useDispatch();
@@ -18,27 +18,27 @@ const NodeAction: FC = () => {
 
   const handleToAdd = () => {
     subject.publish({
-      topic: "toAdd",
+      topic: 'toAdd',
       producerId: idUiConf!,
       data: { treeSelectedNode: selectedNode },
     });
     subject.publish({
-      topic: "/page/change",
+      topic: '/page/change',
       producerId: idUiConf!,
-      data: "form",
+      data: 'form',
     });
   };
 
   const handleToEdit = () => {
     subject.publish({
-      topic: "toEdit",
+      topic: 'toEdit',
       producerId: idUiConf!,
       data: { selectedRow: selectedNode },
     });
     subject.publish({
-      topic: "/page/change",
+      topic: '/page/change',
       producerId: idUiConf!,
-      data: "form",
+      data: 'form',
     });
   };
 
@@ -50,20 +50,20 @@ const NodeAction: FC = () => {
 
   return (
     <>
-      <Space size={"small"}>
-        <Button onClick={handleToAdd} type={"default"} disabled={fgDisabled}>
+      <Space size={'small'}>
+        <Button onClick={handleToAdd} type={'default'} disabled={fgDisabled}>
           <PlusCircleOutlined />
         </Button>
         <Button
           onClick={handleToEdit}
-          type={"default"}
+          type={'default'}
           disabled={!selectedNode || fgDisabled}
         >
           <EditOutlined />
         </Button>
         <Button
           onClick={handleToDelete}
-          type={"default"}
+          type={'default'}
           disabled={
             !selectedNode ||
             (selectedNode?.children && selectedNode.children.length > 0) ||

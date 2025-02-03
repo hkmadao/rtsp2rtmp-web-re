@@ -1,33 +1,31 @@
-import { CaseReducer, PayloadAction, nanoid, } from "@reduxjs/toolkit";
-import { TFormStore } from "../models";
-import { TTree, DOStatus, } from "@/models";
-import { Key } from "react";
-import {
-  TUser,
-} from "../../../../models";
-import { subject } from "../../../../conf";
-import { deepCopy } from "@/util";
+import { CaseReducer, PayloadAction, nanoid } from '@reduxjs/toolkit';
+import { TFormStore } from '../models';
+import { TTree, DOStatus } from '@/models';
+import { Key } from 'react';
+import { TUser } from '../../../../models';
+import { subject } from '../../../../conf';
+import { deepCopy } from '@/util';
 export const setComponentInfo: CaseReducer<
   TFormStore,
-  PayloadAction<{ idUiConf: string; fgDisabled: boolean; }>
+  PayloadAction<{ idUiConf: string; fgDisabled: boolean }>
 > = (state, action) => {
   const { idUiConf, fgDisabled } = action.payload;
   state.idUiConf = idUiConf;
   state.fgDisabled = fgDisabled;
 };
 
-export const setFormData: CaseReducer<
-  TFormStore,
-  PayloadAction<TUser>
-> = (state, action) => {
+export const setFormData: CaseReducer<TFormStore, PayloadAction<TUser>> = (
+  state,
+  action,
+) => {
   state.formData = { ...action.payload };
 };
 
 export const addFormData: CaseReducer<
   TFormStore,
-  PayloadAction<{ nodeData: any; }>
+  PayloadAction<{ nodeData: any }>
 > = (state, action) => {
-  const { nodeData, } = action.payload;
+  const { nodeData } = action.payload;
   state.treeSelectedNode = nodeData;
   state.formData = {
     idUser: nanoid(),
@@ -43,10 +41,10 @@ export const addFormData: CaseReducer<
   };
 };
 
-export const cancle: CaseReducer<
-  TFormStore,
-  PayloadAction<void>
-> = (state, action) => {
+export const cancel: CaseReducer<TFormStore, PayloadAction<void>> = (
+  state,
+  action,
+) => {
   if (state.editData) {
     subject.publish({
       topic: 'updateSuccess',
@@ -68,14 +66,17 @@ export const cancle: CaseReducer<
   });
 };
 
-export const updateFormData: CaseReducer<
-  TFormStore,
-  PayloadAction<TUser>
-> = (state, action) => {
+export const updateFormData: CaseReducer<TFormStore, PayloadAction<TUser>> = (
+  state,
+  action,
+) => {
   state.formData = {
     ...state.formData,
     ...action.payload,
-    action: state.formData.action !== DOStatus.NEW ? DOStatus.UPDATED : state.formData.action,
+    action:
+      state.formData.action !== DOStatus.NEW
+        ? DOStatus.UPDATED
+        : state.formData.action,
     idUser: state.formData.idUser,
   };
 };

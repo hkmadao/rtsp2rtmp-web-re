@@ -1,22 +1,23 @@
-import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import { TLeftTreeStore } from "../models";
-import { TTree } from "@/models";
-import { Key } from "react";
-import { subject, treeConf } from "../../../conf";
-import { deepCopy, getMatchKeys, getTreeByKeys, getTreeKeys, } from "@/util";
+import { CaseReducer, PayloadAction } from '@reduxjs/toolkit';
+import { TLeftTreeStore } from '../models';
+import { TTree } from '@/models';
+import { Key } from 'react';
+import { subject, treeConf } from '../../../conf';
+import { deepCopy, getMatchKeys, getTreeByKeys, getTreeKeys } from '@/util';
 
 export const setComponentInfo: CaseReducer<
   TLeftTreeStore,
-  PayloadAction<{ idUiConf: string; fgDisabled: boolean; }>
+  PayloadAction<{ idUiConf: string; fgDisabled: boolean; fgHidden: boolean }>
 > = (state, action) => {
-  const { idUiConf, fgDisabled } = action.payload;
+  const { idUiConf, fgDisabled, fgHidden } = action.payload;
   state.idUiConf = idUiConf;
   state.fgDisabled = fgDisabled;
+  state.fgHidden = fgHidden;
 };
 
 export const setSelectedNode: CaseReducer<
   TLeftTreeStore,
-  PayloadAction<{ keys: Key[], node: TTree }>
+  PayloadAction<{ keys: Key[]; node: TTree }>
 > = (state, action) => {
   const { keys, node } = action.payload;
   state.selectedNode = node;
@@ -41,10 +42,10 @@ export const cancelSelectedNode: CaseReducer<
   });
 };
 
-export const toggleExpand: CaseReducer<
-  TLeftTreeStore,
-  PayloadAction<Key>
-> = (state, action) => {
+export const toggleExpand: CaseReducer<TLeftTreeStore, PayloadAction<Key>> = (
+  state,
+  action,
+) => {
   if (state.expandedKeys.includes(action.payload)) {
     state.expandedKeys = state.expandedKeys.filter((k) => k !== action.payload);
     return;
@@ -64,9 +65,25 @@ export const searchTreeNode: CaseReducer<
   PayloadAction<string>
 > = (state, action) => {
   const searchValue = action.payload;
-  const foundKeys = getMatchKeys(treeConf?.searchAttrs || [], searchValue, state.sourchTreeData || []);
+  const foundKeys = getMatchKeys(
+    treeConf?.searchAttrs || [],
+    searchValue,
+    state.sourchTreeData || [],
+  );
   const foundTree = getTreeByKeys(foundKeys, state.sourchTreeData || []);
   state.expandedKeys = getTreeKeys(foundTree);
-  state.foundKeys = foundKeys;
+  if (!searchValue) {
+    state.foundKeys = [];
+  } else {
+    state.foundKeys = foundKeys;
+  }
   state.treeData = foundTree;
+};
+
+export const setFgInnerDisabled: CaseReducer<
+  TLeftTreeStore,
+  PayloadAction<boolean>
+> = (state, action) => {
+  const fgInnerDisabled = action.payload;
+  state.fgInnerDisabled = fgInnerDisabled;
 };

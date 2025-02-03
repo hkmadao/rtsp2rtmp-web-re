@@ -33,6 +33,16 @@ const Live: FC = () => {
     setAudio(e.target.checked);
   };
 
+  const handleStop = () => {
+    if (playRef.current) {
+      playRef.current.pause();
+      playRef.current.unload();
+      playRef.current.detachMediaElement();
+      playRef.current.destroy();
+      playRef.current = undefined;
+    }
+  };
+
   const flv_load = () => {
     let method = getQueryString('method');
     let code = getQueryString('code');
@@ -110,6 +120,9 @@ const Live: FC = () => {
           <div style={{ display: 'flex', gap: '20px' }}>
             <Button type="primary" onClick={handlePlay}>
               Play
+            </Button>
+            <Button type="primary" onClick={handleStop}>
+              Stop
             </Button>
             <Checkbox checked={audio} onChange={handleAudioChange}>
               hasAudio

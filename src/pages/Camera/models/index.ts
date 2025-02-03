@@ -19,11 +19,21 @@ export type TCamera = {
   /**rtmp推送状态 */
   rtmpPushStatus?: boolean;
   /**保存录像状态 */
-  /**直播状态 */
   saveVideo?: boolean;
+  /**直播状态 */
   live?: boolean;
   /**创建时间 */
   created?: string;
+  /**加密标志 */
+  fgSecret?: boolean;
+  /**密钥 */
+  secret?: string;
+  /**被动推送rtmp标志 */
+  fgPassive?: boolean;
+  /**rtmp识别码 */
+  rtmpAuthCode?: string;
+  /**摄像头类型 */
+  cameraType?: string;
   /**摄像头 */
   cameraShares?: TCameraShare;
 } & TAudit;

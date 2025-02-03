@@ -1,14 +1,15 @@
 import { FC, useEffect, useState } from 'react';
 import { Button, Space } from 'antd';
 import { Observer, TMessage } from '@/util/observer';
-import { subject, actionFormConf, } from '../../conf';
+import { subject, actionFormConf } from '../../conf';
 
 const FormToolBar: FC<{
-  idLayout: string
+  idLayout: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
 }> = ({ idLayout, fgDisabled }) => {
-  const [componentFgDiabled, setComponentFgDiabled] = useState<boolean>(fgDisabled);
+  const [componentFgDiabled, setComponentFgDiabled] =
+    useState<boolean>(fgDisabled);
   const [fgAdd, setFgAdd] = useState<boolean>(true);
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const FormToolBar: FC<{
 
   const handleCancel = () => {
     subject.publish({
-      topic: 'cancle',
+      topic: 'cancel',
       producerId: idLayout,
       data: undefined,
     });
@@ -90,49 +91,49 @@ const FormToolBar: FC<{
   return (
     <>
       <div
-          style={{
-            display: 'flex',
-            flex: '0 1 auto',
-            gap: actionFormConf?.gap ?? '10px',
-            justifyContent: actionFormConf?.justifyContent ?? 'start',
-            flexWrap: 'wrap',
-          }}
+        style={{
+          display: 'flex',
+          flex: '0 1 auto',
+          gap: actionFormConf?.gap ?? '10px',
+          justifyContent: actionFormConf?.justifyContent ?? 'start',
+          flexWrap: 'wrap',
+        }}
+      >
+        <Button
+          key={'ueHq5gJXKio3jiy5P-bcI'}
+          size={'middle'}
+          type={'primary'}
+          onClick={handleSave}
         >
-          <Button
-            key={'ueHq5gJXKio3jiy5P-bcI'}
-            size={'middle'}
-            type={'primary'}
-            onClick={handleSave}
-          >
-            { '保存' }
-          </Button>
-          <Button
-            key={'DU4_-4ekx5Jc-Z5BmIPxD'}
-            size={'middle'}
-            type={'primary'}
-            onClick={handleAddAgain}
-            hidden={!fgAdd}
-          >
-            { '保存并新增' }
-          </Button>
-          <Button
-            key={'9TxQkPfN6Xyukc1lyD9_u'}
-            size={'middle'}
-            type={'primary'}
-            onClick={handleCancel}
-          >
-            { '取消' }
-          </Button>
-          <Button
-            key={'4Sjb4fJ21fhztQMH3JuQt'}
-            size={'middle'}
-            type={'primary'}
-            onClick={handleReflesh}
-            hidden={fgAdd}
-          >
-            { '刷新' }
-          </Button>
-        </div>
+          {'保存'}
+        </Button>
+        <Button
+          key={'DU4_-4ekx5Jc-Z5BmIPxD'}
+          size={'middle'}
+          type={'primary'}
+          onClick={handleAddAgain}
+          hidden={!fgAdd}
+        >
+          {'保存并新增'}
+        </Button>
+        <Button
+          key={'9TxQkPfN6Xyukc1lyD9_u'}
+          size={'middle'}
+          type={'primary'}
+          onClick={handleCancel}
+        >
+          {'取消'}
+        </Button>
+        <Button
+          key={'4Sjb4fJ21fhztQMH3JuQt'}
+          size={'middle'}
+          type={'primary'}
+          onClick={handleReflesh}
+          hidden={fgAdd}
+        >
+          {'刷新'}
+        </Button>
+      </div>
     </>
   );
 };

@@ -1,12 +1,5 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import {
-  Form,
-  Input,
-  InputNumber,
-  Checkbox,
-  Space,
-  Select,
-} from 'antd';
+import { Form, Input, InputNumber, Checkbox, Space, Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { PlusOutlined } from '@ant-design/icons';
 import moment from 'moment';
@@ -15,18 +8,16 @@ import { Observer, TMessage } from '@/util/observer';
 import RefPicker from '@/components/Ref';
 import CustomDatePick from '@/components/CustomDatePick';
 import CustomTimePicker from '@/components/CustomTimePicker';
-import {
-  TCameraShare,
-} from '../../../models';
+import { TCameraShare } from '../../../models';
 import { getRefByAttr } from '@/util';
 import { billformConf, subject } from '../../../conf';
+import { actions, toEdit, save, reflesh } from './store';
 import {
-  actions,
-  toEdit,
-  save,
-  reflesh,
-} from './store';
-import { useEditStatusInfo, useFormData, useIdUiConf, useFgDisabled, } from './hooks';
+  useEditStatusInfo,
+  useFormData,
+  useIdUiConf,
+  useFgDisabled,
+} from './hooks';
 const MainFormLayout: FC = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -48,13 +39,13 @@ const MainFormLayout: FC = () => {
     }
 
     const cancleObserver: Observer = {
-      topic: 'cancle',
+      topic: 'cancel',
       consumerId: idUiConf,
       update: function (message: TMessage): void {
         if (message.consumerIds.includes(idUiConf)) {
           return;
         }
-        dispatch(actions.cancle());
+        dispatch(actions.cancel());
       },
     };
     subject.subscribe(cancleObserver);
@@ -66,7 +57,9 @@ const MainFormLayout: FC = () => {
         if (message.consumerIds.includes(idUiConf)) {
           return;
         }
-        dispatch(actions.addFormData({ nodeData: message.data.treeSelectedNode }));
+        dispatch(
+          actions.addFormData({ nodeData: message.data.treeSelectedNode }),
+        );
       },
     };
     subject.subscribe(toAddObserver);
@@ -109,7 +102,12 @@ const MainFormLayout: FC = () => {
           if (message.consumerIds.includes(idUiConf)) {
             return;
           }
-          dispatch(toEdit({ nodeData: message.data.treeSelectedNode, selectedRow: message.data.selectedRow }));
+          dispatch(
+            toEdit({
+              nodeData: message.data.treeSelectedNode,
+              selectedRow: message.data.selectedRow,
+            }),
+          );
         })();
       },
     };
@@ -164,7 +162,7 @@ const MainFormLayout: FC = () => {
       newValues.cameraId = newValues.camera.id;
     }
     dispatch(actions.updateFormData(newValues));
-  }
+  };
 
   return (
     <>
@@ -176,11 +174,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled || true }
+              readOnly={fgDisabled || true}
               allowClear
-              placeholder={
-                '请输入摄像头分享主属性'
-              }
+              placeholder={'请输入摄像头分享主属性'}
             />
           </Form.Item>
           <Form.Item
@@ -189,11 +185,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入名称'
-              }
+              placeholder={'请输入名称'}
             />
           </Form.Item>
           <Form.Item
@@ -202,11 +196,9 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
           >
             <Input
-              readOnly={fgDisabled }
+              readOnly={fgDisabled}
               allowClear
-              placeholder={
-                '请输入权限码'
-              }
+              placeholder={'请输入权限码'}
             />
           </Form.Item>
           <Form.Item
@@ -215,16 +207,16 @@ const MainFormLayout: FC = () => {
             style={{ padding: '5px 0px 5px 0px' }}
             valuePropName="checked"
           >
-            <Checkbox disabled={fgDisabled || true }/>
+            <Checkbox disabled={fgDisabled || true} />
           </Form.Item>
           <Form.Item
             label={'创建时间'}
             name={'created'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            <CustomDatePick 
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DD HH:mm:ss'
+            <CustomDatePick
+              format="YYYY-MM-DDTHH:mm:ssZ"
+              displayFormat="YYYY-MM-DD HH:mm:ss"
             />
           </Form.Item>
           <Form.Item
@@ -232,9 +224,9 @@ const MainFormLayout: FC = () => {
             name={'startTime'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            <CustomDatePick 
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DD HH:mm:ss'
+            <CustomDatePick
+              format="YYYY-MM-DDTHH:mm:ssZ"
+              displayFormat="YYYY-MM-DD HH:mm:ss"
             />
           </Form.Item>
           <Form.Item
@@ -242,9 +234,9 @@ const MainFormLayout: FC = () => {
             name={'deadline'}
             style={{ padding: '5px 0px 5px 0px' }}
           >
-            <CustomDatePick 
-              format='YYYY-MM-DDTHH:mm:ssZ'
-              displayFormat='YYYY-MM-DD HH:mm:ss'
+            <CustomDatePick
+              format="YYYY-MM-DDTHH:mm:ssZ"
+              displayFormat="YYYY-MM-DD HH:mm:ss"
             />
           </Form.Item>
           <Form.Item

@@ -1,13 +1,22 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { TMessage } from '@/util';
 import { componentName } from '../conf';
-import { andLogicNode, equalFilterNode, EDirection, TFilterNode, TPageInfo, TPageInfoInput, TTree, stringFilterParam, buildFiltersBySearchRef, andOrLogicNode } from '@/models';
-import { TTableStore } from '../models';
-import { queryConf, tableConf, } from '../../../../conf';
-import ListAPI from '../api';
 import {
-  TCamera,
-} from '../../../../models';
+  andLogicNode,
+  equalFilterNode,
+  EDirection,
+  TFilterNode,
+  TPageInfo,
+  TPageInfoInput,
+  TTree,
+  stringFilterParam,
+  buildFiltersBySearchRef,
+  andOrLogicNode,
+} from '@/models';
+import { TTableStore } from '../models';
+import { queryConf, tableConf } from '../../../../conf';
+import ListAPI from '../api';
+import { TCamera } from '../../../../models';
 const searcheRefs = queryConf?.searchRefs;
 
 export const fetchByTreeNode = createAsyncThunk(
@@ -40,13 +49,11 @@ export const fetchByTreeNode = createAsyncThunk(
         },
       ],
     };
-    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
-      params,
-    );
+    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(params);
     return {
       selectedTreeNode,
       pageInfo,
-    }
+    };
   },
 );
 
@@ -86,13 +93,11 @@ export const search = createAsyncThunk(
         },
       ],
     };
-    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
-      params,
-    );
+    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(params);
     return {
       searchData,
       pageInfo,
-    }
+    };
   },
 );
 
@@ -129,16 +134,14 @@ export const reflesh = createAsyncThunk(
         },
       ],
     };
-    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
-      searchParam,
-    );
-    return pageInfo
+    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(searchParam);
+    return pageInfo;
   },
 );
 
 export const pageChange = createAsyncThunk(
   `${tableConf?.name}/pageChange`,
-  async (params: { page: number, pageSize: number }, thunkAPI) => {
+  async (params: { page: number; pageSize: number }, thunkAPI) => {
     const { page, pageSize } = params;
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
     const fns: TFilterNode[] = [];
@@ -170,10 +173,8 @@ export const pageChange = createAsyncThunk(
         },
       ],
     };
-    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
-      queyrParams,
-    );
-    return pageInfo
+    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(queyrParams);
+    return pageInfo;
   },
 );
 
@@ -184,12 +185,27 @@ export const batchRemove = createAsyncThunk(
       return;
     }
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
-    const deleteDatas = state.tableData?.filter(d => state.selectedRowKeys?.includes(d.id!));
+    const deleteDatas = state.tableData?.filter((d) =>
+      state.selectedRowKeys?.includes(d.id!),
+    );
     if (!deleteDatas || deleteDatas.length === 0) {
       return;
     }
     await ListAPI.batchRemove(deleteDatas);
     const fns: TFilterNode[] = [];
+    if (state.selectedTreeNode) {
+      const treeIdFn: TFilterNode = equalFilterNode(
+        'cameraId',
+        stringFilterParam(state.selectedTreeNode['id']),
+      );
+      fns.push(treeIdFn);
+    }
+    const searchData = state.searchData;
+    const searchFilter = buildFiltersBySearchRef(searchData, searcheRefs);
+    if (!searchFilter) {
+      return;
+    }
+    fns.push(...searchFilter.andFilters);
     const params: TPageInfoInput = {
       pageIndex: 1,
       pageSize: 10,
@@ -212,24 +228,27 @@ export const batchRemove = createAsyncThunk(
         },
       ],
     };
-    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(
-      params,
-    );
+    const pageInfo: TPageInfo<TCamera> = await ListAPI.pageList(params);
     return pageInfo;
   },
 );
 
 export const statusChange = createAsyncThunk(
   `${tableConf?.name}/statusChange`,
-  async (changeType: 'enabled' | 'live' | 'rtmpPushStatus' | 'saveVideo', thunkAPI) => {
+  async (
+    changeType: 'enabled' | 'live' | 'rtmpPushStatus' | 'saveVideo',
+    thunkAPI,
+  ) => {
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
-    const immutableData = state.tableData?.find(d => state.selectedRowKeys?.includes(d.id!));
+    const immutableData = state.tableData?.find((d) =>
+      state.selectedRowKeys?.includes(d.id!),
+    );
     if (!immutableData) {
-      console.error("no row to selected")
+      console.error('no row to selected');
       return;
     }
     const toChangeData = { ...immutableData };
-    toChangeData[changeType] = !(toChangeData[changeType]);
+    toChangeData[changeType] = !toChangeData[changeType];
     if (changeType === 'enabled') {
       const changeData = await ListAPI.enabledChange(toChangeData);
       return changeData;
@@ -256,9 +275,11 @@ export const playAuthCodeReset = createAsyncThunk(
       return;
     }
     const state: TTableStore = (thunkAPI.getState() as any)[componentName];
-    const immutableData = state.tableData?.find(d => state.selectedRowKeys?.includes(d.id!));
+    const immutableData = state.tableData?.find((d) =>
+      state.selectedRowKeys?.includes(d.id!),
+    );
     if (!immutableData) {
-      console.error("no row to selected")
+      console.error('no row to selected');
       return;
     }
     const toChangeData = { ...immutableData };

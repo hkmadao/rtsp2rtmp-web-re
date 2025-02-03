@@ -1,14 +1,15 @@
 import { FC, useEffect, useState } from 'react';
 import { Button, Space } from 'antd';
 import { Observer, TMessage } from '@/util/observer';
-import { subject, actionFormConf, } from '../../conf';
+import { subject, actionFormConf } from '../../conf';
 
 const FormToolBar: FC<{
-  idLayout: string
+  idLayout: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
 }> = ({ idLayout, fgDisabled }) => {
-  const [componentFgDiabled, setComponentFgDiabled] = useState<boolean>(fgDisabled);
+  const [componentFgDiabled, setComponentFgDiabled] =
+    useState<boolean>(fgDisabled);
   const [fgAdd, setFgAdd] = useState<boolean>(true);
 
   useEffect(() => {
@@ -73,7 +74,7 @@ const FormToolBar: FC<{
 
   const handleCancel = () => {
     subject.publish({
-      topic: 'cancle',
+      topic: 'cancel',
       producerId: idLayout,
       data: undefined,
     });
@@ -90,15 +91,14 @@ const FormToolBar: FC<{
   return (
     <>
       <div
-          style={{
-            display: 'flex',
-            flex: '0 1 auto',
-            gap: actionFormConf?.gap ?? '10px',
-            justifyContent: actionFormConf?.justifyContent ?? 'start',
-            flexWrap: 'wrap',
-          }}
-        >
-        </div>
+        style={{
+          display: 'flex',
+          flex: '0 1 auto',
+          gap: actionFormConf?.gap ?? '10px',
+          justifyContent: actionFormConf?.justifyContent ?? 'start',
+          flexWrap: 'wrap',
+        }}
+      ></div>
     </>
   );
 };
