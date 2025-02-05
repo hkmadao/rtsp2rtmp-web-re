@@ -20,13 +20,15 @@ const SearchAreaLayout: FC<{
   }, [idLayout, fgDisabled, fgHidden]);
 
   return (
-    <Provider store={store}>
-      <MainLayout
-        idLayout={myIdLayout}
-        fgDisabled={myFgDisabled}
-        fgHidden={myHidden}
-      />
-    </Provider>
+    <>
+      <Provider store={store}>
+        <MainLayout
+          idLayout={myIdLayout}
+          fgDisabled={myFgDisabled}
+          fgHidden={myHidden}
+        />
+      </Provider>
+    </>
   );
 };
 

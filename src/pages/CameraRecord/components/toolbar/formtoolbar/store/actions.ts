@@ -6,11 +6,12 @@ import { subject } from '../../../../conf';
 
 export const setComponentInfo: CaseReducer<
   TFormToolbarStore,
-  PayloadAction<{ idUiConf: string; fgDisabled: boolean }>
+  PayloadAction<{ idUiConf: string; fgDisabled: boolean; fgHidden: boolean }>
 > = (state, action) => {
-  const { idUiConf, fgDisabled } = action.payload;
+  const { idUiConf, fgDisabled, fgHidden } = action.payload;
   state.idUiConf = idUiConf;
   state.fgDisabled = fgDisabled;
+  state.fgHidden = fgHidden;
 };
 
 export const setFgAdd: CaseReducer<

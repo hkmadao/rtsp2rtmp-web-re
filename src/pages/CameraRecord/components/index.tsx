@@ -57,35 +57,55 @@ const Center: FC = () => {
         if (layout.component?.componentType === 'viewBillform') {
           return (
             <Layout {...param}>
-              <TableLayout idLayout={layout.id} fgDisabled={asso.disabled} />
+              <TableLayout
+                idLayout={layout.id}
+                fgDisabled={asso.disabled}
+                fgHidden={asso.hidden}
+              />
             </Layout>
           );
         }
         if (layout.component?.componentType === 'editBillform') {
           return (
             <Layout {...param}>
-              <FormLayout idLayout={layout.id} fgDisabled={asso.disabled} />
+              <FormLayout
+                idLayout={layout.id}
+                fgDisabled={asso.disabled}
+                fgHidden={asso.hidden}
+              />
             </Layout>
           );
         }
         if (layout.component?.componentType === 'tree') {
           return (
             <Layout {...param}>
-              <LeftTree idLayout={layout.id} fgDisabled={asso.disabled} />
+              <LeftTree
+                idLayout={layout.id}
+                fgDisabled={asso.disabled}
+                fgHidden={asso.hidden}
+              />
             </Layout>
           );
         }
         if (layout.component?.componentType === 'viewButton') {
           return (
             <Layout {...param}>
-              <TableToolBar idLayout={layout.id} fgDisabled={asso.disabled} />
+              <TableToolBar
+                idLayout={layout.id}
+                fgDisabled={asso.disabled}
+                fgHidden={asso.hidden}
+              />
             </Layout>
           );
         }
         if (layout.component?.componentType === 'editButton') {
           return (
             <Layout {...param}>
-              <FormToolBar idLayout={layout.id} fgDisabled={asso.disabled} />
+              <FormToolBar
+                idLayout={layout.id}
+                fgDisabled={asso.disabled}
+                fgHidden={asso.hidden}
+              />
             </Layout>
           );
         }

@@ -1,7 +1,6 @@
-
-import { useSelector, } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { DOStatus } from '@/models';
-import { TFormStore, } from '../models';
+import { TFormStore } from '../models';
 import { componentName } from '../conf';
 
 export * from './columns';
@@ -10,7 +9,7 @@ export const useEditStatusInfo = () => {
   return useSelector((state: { [x: string]: TFormStore }) => {
     return state[componentName].editStatusInfo;
   });
-}
+};
 
 const selectIdUiConf = (state: { [x: string]: TFormStore }) => {
   return state[componentName].idUiConf;
@@ -18,13 +17,19 @@ const selectIdUiConf = (state: { [x: string]: TFormStore }) => {
 
 export const useIdUiConf = () => {
   return useSelector(selectIdUiConf);
-}
+};
 
 export const useFgDisabled = () => {
   return useSelector((state: { [x: string]: TFormStore }) => {
     return state[componentName].fgDisabled;
   });
-}
+};
+
+export const useFgHidden = () => {
+  return useSelector((state: { [x: string]: TFormStore }) => {
+    return state[componentName].fgHidden;
+  });
+};
 
 const selectStore = (state: { [x: string]: TFormStore }) => {
   return state[componentName].formData;
@@ -32,4 +37,4 @@ const selectStore = (state: { [x: string]: TFormStore }) => {
 
 export const useFormData = () => {
   return useSelector(selectStore);
-}
+};

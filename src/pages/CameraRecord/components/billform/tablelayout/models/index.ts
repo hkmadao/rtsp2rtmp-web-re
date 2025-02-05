@@ -1,7 +1,5 @@
 import { TTree } from '@/models';
-import {
-  TCameraRecord,
-} from '../../../../models';
+import { TCameraRecord } from '../../../../models';
 import { Key } from 'react';
 export type TTableStore = {
   /**页面状态 */
@@ -10,6 +8,7 @@ export type TTableStore = {
   idUiConf?: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
+  fgHidden: boolean;
   /**当前页面编号 */
   tableData?: TCameraRecord[];
   selectedRowKeys?: Key[];
@@ -18,4 +17,4 @@ export type TTableStore = {
   pageIndex?: number;
   pageSize?: number;
   totalCount?: number;
-}
+};

@@ -8,5 +8,6 @@ export type TFormToolbarStore = {
   idUiConf?: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
+  fgHidden: boolean;
   fgAdd: boolean;
 };

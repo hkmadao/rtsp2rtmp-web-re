@@ -8,6 +8,7 @@ export type TTableToolBarStore = {
   idUiConf?: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
+  fgHidden: boolean;
   rowSelectionType: 'radio' | 'checkbox';
   selectRows: any[];
   nodeTreeData?: TTree;

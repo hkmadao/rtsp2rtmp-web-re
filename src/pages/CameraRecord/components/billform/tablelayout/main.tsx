@@ -1,20 +1,23 @@
-import { FC, memo, useEffect, } from 'react';
+import { FC, memo, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import SubTableLayout from './SubTableLayout';
-import MainTableLayout from './MainTableLayout';
-import { actions, } from './store';
+import SubTableLayout from './components/SubTableLayout';
+import MainTableLayout from './components/MainTableLayout';
+import { actions } from './store';
 
 const TableLayout: FC<{
-  idLayout: string
+  idLayout: string;
   /**组件是否是禁用状态 */
   fgDisabled: boolean;
-}> = ({ idLayout, fgDisabled }) => {
+  fgHidden: boolean;
+}> = ({ idLayout, fgDisabled, fgHidden }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(actions.setComponentInfo({ idUiConf: idLayout, fgDisabled }))
-  }, [idLayout, fgDisabled]);
-  
+    dispatch(
+      actions.setComponentInfo({ idUiConf: idLayout, fgDisabled, fgHidden }),
+    );
+  }, [idLayout, fgDisabled, fgHidden]);
+
   return (
     <>
       <div
@@ -26,14 +29,10 @@ const TableLayout: FC<{
           overflow: 'auto',
         }}
       >
-        <div
-          style={{ flex: 'auto', overflow: 'auto', }}
-        >
+        <div style={{ flex: 'auto', overflow: 'auto' }}>
           <MainTableLayout />
         </div>
-        <div
-          style={{ flex: 'auto', overflow: 'auto', }}
-        >
+        <div style={{ flex: 'auto', overflow: 'auto' }}>
           <SubTableLayout />
         </div>
       </div>

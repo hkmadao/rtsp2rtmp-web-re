@@ -13,6 +13,10 @@ const FromToolBarComponent: FC<{}> = ({}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!idUiConf) {
+      return;
+    }
+
     const toAddObserver: Observer = {
       topic: 'toAdd',
       consumerId: idUiConf!,
@@ -42,7 +46,7 @@ const FromToolBarComponent: FC<{}> = ({}) => {
       subject.unsubsribe(toAddObserver);
       subject.unsubsribe(toEditObserver);
     };
-  }, []);
+  }, [idUiConf]);
 
   const handleSave = () => {
     if (fgAdd) {

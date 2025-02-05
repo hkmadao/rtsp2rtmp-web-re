@@ -8,16 +8,16 @@ import { Observer, TMessage } from '@/util/observer';
 import RefPicker from '@/components/Ref';
 import CustomDatePick from '@/components/CustomDatePick';
 import CustomTimePicker from '@/components/CustomTimePicker';
-import { TCameraRecord } from '../../../models';
+import { TCameraRecord } from '../../../../models';
 import { getRefByAttr } from '@/util';
-import { billformConf, subject } from '../../../conf';
-import { actions, toEdit, save, reflesh } from './store';
+import { billformConf, subject } from '../../../../conf';
+import { actions, toEdit, save, reflesh } from '../store';
 import {
   useEditStatusInfo,
   useFormData,
   useIdUiConf,
   useFgDisabled,
-} from './hooks';
+} from '../hooks';
 const MainFormLayout: FC = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -267,6 +267,14 @@ const MainFormLayout: FC = () => {
               allowClear
               placeholder={'请输入临时文件名称'}
             />
+          </Form.Item>
+          <Form.Item
+            label={'是否有音频'}
+            name={'hasAudio'}
+            style={{ padding: '5px 0px 5px 0px' }}
+            valuePropName="checked"
+          >
+            <Checkbox disabled={fgDisabled} />
           </Form.Item>
         </Space>
       </Form>

@@ -17,6 +17,10 @@ const SearchAreaComponent: FC<{}> = ({}) => {
   const searchValuesRef = useRef<any>({});
 
   useEffect(() => {
+    if (!idUiConf) {
+      return;
+    }
+
     const treeNodeObserver: Observer = {
       topic: 'treeNodeSelected',
       consumerId: idUiConf!,
@@ -49,7 +53,7 @@ const SearchAreaComponent: FC<{}> = ({}) => {
       subject.unsubsribe(treeNodeObserver);
       subject.unsubsribe(treeNodeCancelObserver);
     };
-  }, []);
+  }, [idUiConf]);
 
   useEffect(() => {
     const newValues: any = {};

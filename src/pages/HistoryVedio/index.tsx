@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, Key, useEffect, useRef, useState } from 'react';
 import { Button, Table, TableColumnType } from 'antd';
 import CustomDateText from '@/components/CustomDateText';
 import BaseAPI from '@/api';
@@ -17,6 +17,7 @@ type RecordFileInfo = {
 
 const HistoryVedio: FC = () => {
   const [tableData, setTableData] = useState<RecordFileInfo[]>([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
 
   useEffect(() => {
     handleReflush();
@@ -100,6 +101,18 @@ const HistoryVedio: FC = () => {
     },
   ];
 
+  const onRow = (record: RecordFileInfo) => {
+    return {
+      onClick: (event: any) => {
+        setSelectedRowKeys([record.fileName]);
+      }, // 点击行
+      onDoubleClick: (event: any) => {},
+      onContextMenu: (event: any) => {},
+      onMouseEnter: (event: any) => {}, // 鼠标移入行
+      onMouseLeave: (event: any) => {},
+    };
+  };
+
   return (
     <>
       <div
@@ -125,11 +138,13 @@ const HistoryVedio: FC = () => {
             <Table
               size={'small'}
               rowKey={'fileName'}
+              onRow={onRow}
               columns={columns}
               dataSource={tableData}
               scroll={{ x: 300, y: 600 }}
               rowSelection={{
                 type: 'radio',
+                selectedRowKeys: selectedRowKeys,
               }}
               pagination={{
                 total: tableData.length,

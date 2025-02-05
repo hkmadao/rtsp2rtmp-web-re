@@ -1,6 +1,19 @@
 import { FC, Key, useEffect, useRef, useState } from 'react';
-import { Button, TreeProps, Input, Tree, InputRef, Space, Checkbox } from 'antd';
-import { CloseCircleFilled, CloseOutlined, ReloadOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  Button,
+  TreeProps,
+  Input,
+  Tree,
+  InputRef,
+  Space,
+  Checkbox,
+} from 'antd';
+import {
+  CloseCircleFilled,
+  CloseOutlined,
+  ReloadOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { TTree } from '@/models';
 import { Observer, TMessage } from '@/util/observer';
@@ -80,7 +93,7 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== "Enter") {
+    if (e.key !== 'Enter') {
       return;
     }
     const value = searchRef.current?.input?.value || '';
@@ -111,13 +124,14 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
     setSearchValue(e.currentTarget.value);
   };
 
-  const handleClick = (e: any, node: any) => {
-  };
+  const handleClick = (e: any, node: any) => {};
 
-  const handleDoubleClick = (e: any, node: any) => {
-  };
+  const handleDoubleClick = (e: any, node: any) => {};
 
-  const onSelect = (keys: Key[], { node, nativeEvent }: { node: TTree; nativeEvent: MouseEvent; }) => {
+  const onSelect = (
+    keys: Key[],
+    { node, nativeEvent }: { node: TTree; nativeEvent: MouseEvent },
+  ) => {
     //只有第一次点击执行事件，防止连续多次执行
     if (nativeEvent.detail === 1) {
       if (keys && keys.length > 0) {
@@ -188,10 +202,22 @@ const LeftTreeLayout: FC<TOprationLayout> = () => {
               onKeyDown={handleKeyDown}
               suffix={
                 <Space direction="horizontal" size={2}>
-                  {searchValue ? <CloseCircleFilled style={{ color: 'rgb(191 191 191)' }} onClick={handleClear} /> : ''}
+                  {searchValue ? (
+                    <CloseCircleFilled
+                      style={{ color: 'rgb(191 191 191)' }}
+                      onClick={handleClear}
+                    />
+                  ) : (
+                    ''
+                  )}
                 </Space>
-              } />
-            <Button onClick={handleSearch} type={'primary'} disabled={fgDisabled}>
+              }
+            />
+            <Button
+              onClick={handleSearch}
+              type={'primary'}
+              disabled={fgDisabled}
+            >
               <SearchOutlined />
             </Button>
             <Button onClick={onReflesh} type={'primary'} disabled={fgDisabled}>

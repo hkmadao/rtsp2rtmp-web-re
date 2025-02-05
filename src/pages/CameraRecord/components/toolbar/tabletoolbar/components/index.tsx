@@ -25,6 +25,10 @@ const SearchAreaComponent: FC<{}> = ({}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (!idUiConf) {
+      return;
+    }
+
     const treeNodeObserver: Observer = {
       topic: 'treeNodeSelected',
       consumerId: idUiConf!,
@@ -85,7 +89,7 @@ const SearchAreaComponent: FC<{}> = ({}) => {
       subject.unsubsribe(selectRowsObserver);
       subject.unsubsribe(listReloadObserver);
     };
-  }, []);
+  }, [idUiConf]);
 
   const handleToAdd = () => {
     subject.publish({

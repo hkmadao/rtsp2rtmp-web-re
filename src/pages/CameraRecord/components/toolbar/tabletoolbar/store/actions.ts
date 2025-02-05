@@ -6,12 +6,13 @@ import { subject, treeConf } from '../../../../conf';
 import { deepCopy, getMatchKeys, getTreeByKeys, getTreeKeys } from '@/util';
 
 export const setComponentInfo: CaseReducer<
-  TTableToolBarStore,
-  PayloadAction<{ idUiConf: string; fgDisabled: boolean }>
+  TFormToolbarStore,
+  PayloadAction<{ idUiConf: string; fgDisabled: boolean; fgHidden: boolean }>
 > = (state, action) => {
-  const { idUiConf, fgDisabled } = action.payload;
+  const { idUiConf, fgDisabled, fgHidden } = action.payload;
   state.idUiConf = idUiConf;
   state.fgDisabled = fgDisabled;
+  state.fgHidden = fgHidden;
 };
 
 export const setTreeNodeData: CaseReducer<

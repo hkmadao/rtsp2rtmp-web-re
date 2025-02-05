@@ -20,12 +20,16 @@ export type TCameraRecord = {
   startTime?: string;
   /**结束时间 */
   endTime?: string;
+  /**是否有音频 */
+  hasAudio?: boolean;
   /**摄像头 */
   camera?: TCamera;
   idCamera?: string;
 } & TAudit;
 /**摄像头 */
 export type TCamera = {
+  /**加密标志 */
+  fgEncrypt?: boolean;
   /**在线状态 */
   onlineStatus?: boolean;
   /**保存录像状态 */
@@ -34,6 +38,12 @@ export type TCamera = {
   playAuthCode?: string;
   /**编号 */
   code?: string;
+  /**被动推送rtmp标志 */
+  fgPassive?: boolean;
+  /**摄像头类型 */
+  cameraType?: string;
+  /**rtmp识别码 */
+  rtmpAuthCode?: string;
   /**rtmp推送地址 */
   rtmpUrl?: string;
   /**创建时间 */

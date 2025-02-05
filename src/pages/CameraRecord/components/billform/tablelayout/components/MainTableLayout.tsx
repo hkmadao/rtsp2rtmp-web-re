@@ -4,15 +4,19 @@ import { DownOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Observer, TMessage } from '@/util/observer';
-import { useMainTableColumns } from './hooks/columns';
-import { subject,} from '../../../conf';
+import { useMainTableColumns } from '../hooks/columns';
+import { subject } from '../../../../conf';
 import styles from './styles.less';
-import { batchRemove, fetchByTreeNode, pageChange, reflesh, search } from './store';
-import { useStoreData, useIdUiConf, } from './hooks';
-import { actions } from './store';
 import {
-  TCameraRecord,
-} from '../../../models';
+  batchRemove,
+  fetchByTreeNode,
+  pageChange,
+  reflesh,
+  search,
+} from '../store';
+import { useStoreData, useIdUiConf } from '../hooks';
+import { actions } from '../store';
+import { TCameraRecord } from '../../../../models';
 const MainTableLayout: FC = () => {
   const idUiConf = useIdUiConf();
   const columns = useMainTableColumns();
@@ -22,8 +26,7 @@ const MainTableLayout: FC = () => {
   const tableStore = useStoreData();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-  },[]);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     if (!idUiConf) {
@@ -188,8 +191,7 @@ const MainTableLayout: FC = () => {
   const onChange = (
     selectedRowKeys: Key[],
     selectedRows: TCameraRecord[],
-  ) => {
-  };
+  ) => {};
 
   const handleSelect = (
     record: TCameraRecord,
@@ -197,12 +199,12 @@ const MainTableLayout: FC = () => {
     selectedRows: TCameraRecord[],
   ) => {
     if (rowSelectionType == 'checkbox') {
-      const newKeys = selectedRows.map(r => r.idCameraRecord!);
+      const newKeys = selectedRows.map((r) => r.idCameraRecord!);
       dispatch(actions.setSelectedRowKeys(newKeys));
     } else {
       dispatch(actions.setSelectedRowKeys([record.idCameraRecord!]));
     }
-  }
+  };
 
   const onRow = (record: TCameraRecord) => {
     return {
@@ -249,15 +251,13 @@ const MainTableLayout: FC = () => {
               }
             : undefined
         }
-        pagination={
-          {
-            total: tableStore.totalCount,
-            current: tableStore.pageIndex,
-            pageSize: tableStore.pageSize,
-            onChange: onPageChange,
-            showTotal,
-          }
-        }
+        pagination={{
+          total: tableStore.totalCount,
+          current: tableStore.pageIndex,
+          pageSize: tableStore.pageSize,
+          onChange: onPageChange,
+          showTotal,
+        }}
       />
     </>
   );
