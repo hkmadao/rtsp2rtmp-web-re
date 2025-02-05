@@ -25,9 +25,7 @@ export type TCamera = {
   /**创建时间 */
   created?: string;
   /**加密标志 */
-  fgSecret?: boolean;
-  /**密钥 */
-  secret?: string;
+  fgEncrypt?: boolean;
   /**被动推送rtmp标志 */
   fgPassive?: boolean;
   /**rtmp识别码 */

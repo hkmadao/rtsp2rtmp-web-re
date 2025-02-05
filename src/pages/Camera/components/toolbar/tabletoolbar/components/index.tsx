@@ -284,7 +284,7 @@ const SearchAreaComponent: FC<{}> = ({}) => {
           disabled={selectRows?.length !== 1}
           onClick={handleLiveChange}
         >
-          {selectRows?.length === 1 && selectRows[0]['rtmpPushStatus'] === false
+          {selectRows?.length === 1 && selectRows[0]['live'] === false
             ? '开启直播'
             : '停止直播'}
         </Button>

@@ -84,7 +84,7 @@ const actionTableConf: TActionContent | undefined = {
       type: 'primary',
       showOrder: 6,
       nameScript:
-        "(selectRows?.length === 1 && selectRows[0]['rtmpPushStatus'] === false)?'开启直播':'停止直播'",
+        "(selectRows?.length === 1 && selectRows[0]['live'] === false)?'开启直播':'停止直播'",
     },
     {
       label: '开启录像',
@@ -100,7 +100,7 @@ const actionTableConf: TActionContent | undefined = {
     },
     {
       label: '开启Rtmp推送',
-      clickEventName: 'handleRtmpPushChange',
+      clickEventName: 'handleRtmpPushStatusChange',
       disableScript: 'selectRows?.length !== 1',
       hiddenScript: '',
       idButton: 'LxEZUlJlWO8hp40V3g4rI',

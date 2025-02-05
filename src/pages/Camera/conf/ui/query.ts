@@ -167,31 +167,31 @@ const queryConf: TQueryContent | undefined = {
       showOrder: 5,
     },
     {
-      idBillSearchRef: 'jU3_87kdKpRc_7njyjYrq',
+      idBillSearchRef: 'TQ-5lcCFFFcpDxiwPeORC',
       operatorCode: 'equal',
       label: '加密标志',
-      attributeName: 'fgSecret',
-      searchAttributes: ['fgSecret'],
+      attributeName: 'fgEncrypt',
+      searchAttributes: ['fgEncrypt'],
       htmlInputType: 'Select',
       valueType: 'Bool',
       defaultValue: 'all',
       enumConfig: {
-        idEnumRef: 'dgR_nm4DSS0nh0EUZQT1P',
+        idEnumRef: 'M5Pa0R3FtS4FH_qxp3RKf',
         enumColumns: [
           {
-            idEnumColumn: 'ZVdkHpDESrxWM_j3Vz7g_',
+            idEnumColumn: 'CHOXX6V-AqhDzi59HWJJ_',
             displayName: '全部',
             enumValue: 'all',
             code: 'all',
           },
           {
-            idEnumColumn: 'YGWJr5NoV_SuYJszSEX7s',
+            idEnumColumn: 'Dw2Ni0gyklxBmJoknwKp0',
             displayName: '是',
             enumValue: 'true',
             code: 'true',
           },
           {
-            idEnumColumn: 'zuzhhrN_ZgqYy1pR-CLaA',
+            idEnumColumn: 'hROckQWsw_zKuF00Rugbg',
             displayName: '否',
             enumValue: 'false',
             code: 'false',

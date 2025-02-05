@@ -259,18 +259,16 @@ const MainFormLayout: FC = () => {
             <Checkbox disabled={fgDisabled || true} />
           </Form.Item>
           <Form.Item
-            label={'创建时间'}
-            name={'created'}
-            style={{ padding: '5px 0px 5px 0px' }}
-          >
-            <CustomDatePick
-              format="YYYY-MM-DDTHH:mm:ssZ"
-              displayFormat="YYYY-MM-DD HH:mm:ss"
-            />
-          </Form.Item>
-          <Form.Item
             label={'被动推送rtmp标志'}
             name={'fgPassive'}
+            style={{ padding: '5px 0px 5px 0px' }}
+            valuePropName="checked"
+          >
+            <Checkbox disabled={fgDisabled} />
+          </Form.Item>
+          <Form.Item
+            label={'加密标志'}
+            name={'fgEncrypt'}
             style={{ padding: '5px 0px 5px 0px' }}
             valuePropName="checked"
           >
@@ -296,6 +294,16 @@ const MainFormLayout: FC = () => {
               <Select.Option value={'rtmp'}>RTMP摄像头</Select.Option>
               <Select.Option value={'rtsp'}>RTSP摄像头</Select.Option>
             </Select>
+          </Form.Item>
+          <Form.Item
+            label={'创建时间'}
+            name={'created'}
+            style={{ padding: '5px 0px 5px 0px' }}
+          >
+            <CustomDatePick
+              format="YYYY-MM-DDTHH:mm:ssZ"
+              displayFormat="YYYY-MM-DD HH:mm:ss"
+            />
           </Form.Item>
         </Space>
       </Form>
