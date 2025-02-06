@@ -25,8 +25,8 @@ type VodProp = {
 
 const VodPlay: FC<{
   /**
-   * eg. http://127.0.0.1:8080/cameraRecord/getDuration/:camerRecordId
-   *     or http://127.0.0.1:8080/cameraRecord/getDuration/:fileName
+   * eg. http://127.0.0.1:8080/cameraRecord/getMediaInfo/:camerRecordId
+   *     or http://127.0.0.1:8080/cameraRecord/getMediaInfo/:fileName
    */
   mediaInfoGetUrl: string;
   /**

@@ -11,7 +11,7 @@ const Vod: FC<{
   const [open, setOpen] = React.useState(false);
 
   const mediaUrlInfo = useMemo(() => {
-    const mediaInfoGetUrl = `/vod/getDuration/${fileName}`;
+    const mediaInfoGetUrl = `/vod/getMediaInfo/${fileName}`;
     const mediaDataGetUrl = `${Env.directServerUrl}/vod/start/${fileName}`;
     const playTimeNotifyUrl = `/vod/fetch`;
     return { mediaInfoGetUrl, mediaDataGetUrl, playTimeNotifyUrl };

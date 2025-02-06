@@ -7,6 +7,12 @@ export default [
     component: '@/pages/Login',
   },
   {
+    path: 'live/live',
+    name: '直播页面',
+    component: '@/pages/Live',
+    exact: true,
+  },
+  {
     path: '/',
     component: '@/layouts/index',
     routes: [
@@ -15,12 +21,6 @@ export default [
         path: 'welcome',
         name: '欢迎页',
         component: '@/pages/Welcome',
-        exact: true,
-      },
-      {
-        path: 'live/live',
-        name: '直播页面',
-        component: '@/pages/Live',
         exact: true,
       },
       {

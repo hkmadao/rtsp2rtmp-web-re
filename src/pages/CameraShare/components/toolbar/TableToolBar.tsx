@@ -3,10 +3,11 @@ import { Button, Modal } from 'antd';
 import { Observer, TMessage } from '@/util/observer';
 import { subject, actionTableConf } from '../../conf';
 import { TTree } from '@/models';
-import Live, { TLiveInfo } from '@/components/Live';
+import Live from '@/components/Live';
 import { TCameraShare } from '../../models';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import Env from '@/conf/env';
+import { TLiveInfo } from '@/components/LiveCore';
 
 const TableToolBar: FC<{
   idLayout: string;
@@ -88,7 +89,7 @@ const TableToolBar: FC<{
         if (message.consumerIds.includes(idLayout)) {
           return;
         }
-        setSelectRows([])
+        setSelectRows([]);
       },
     };
     subject.subscribe(listReloadObserver);

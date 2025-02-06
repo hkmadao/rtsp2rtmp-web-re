@@ -11,7 +11,7 @@ const CameraRecordVod: FC<{
   const [open, setOpen] = React.useState(false);
 
   const mediaUrlInfo = useMemo(() => {
-    const mediaInfoGetUrl = `/cameraRecord/getDuration/${idCameraRecord}`;
+    const mediaInfoGetUrl = `/cameraRecord/getMediaInfo/${idCameraRecord}`;
     const mediaDataGetUrl = `${Env.directServerUrl}/cameraRecord/start/${idCameraRecord}`;
     const playTimeNotifyUrl = `/cameraRecord/fetch`;
     return { mediaInfoGetUrl, mediaDataGetUrl, playTimeNotifyUrl };
